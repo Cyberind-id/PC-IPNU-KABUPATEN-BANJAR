@@ -70,7 +70,12 @@
         .no-print button { transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; }
         .no-print button:active { transform: scale(.97); filter: saturate(1.15); }
         .surat-document { box-sizing: border-box; }
-</style>
+
+        /* Contextual Font Awesome icon system */
+        .fa-solid, .fa-regular, .fa-brands { display:inline-block; line-height:1; vertical-align:-0.08em; }
+        button > .fa-solid, button > .fa-regular, button > .fa-brands { flex:none; }
+        .editor-icon-button { min-width:34px; min-height:32px; display:inline-flex; align-items:center; justify-content:center; }
+    </style>
 </head>
 <body class="bg-gradient-to-br from-emerald-50 via-slate-100 to-teal-50 text-slate-800 antialiased min-h-screen flex flex-col">
     <div class="no-print bg-emerald-950/90 backdrop-blur-xl text-white px-4 py-2 flex items-center justify-between gap-3 text-xs border-b border-white/10 shadow-lg shadow-emerald-950/10"><a href="/tools/" class="inline-flex items-center gap-2 font-bold"><img src="https://ahmatbadali.my.id/img/LOGOIPNU.png" class="w-6 h-6 rounded-full bg-white object-contain p-0.5" alt="Logo IPNU"> PC IPNU KABUPATEN BANJAR</a><a href="/tools/" class="text-emerald-100 hover:text-white underline">← Kembali ke Tools</a></div>
@@ -116,7 +121,7 @@
                 <!-- Help -->
                 <div>
                     <button @click="toggleHelp" type="button" class="text-xs font-semibold text-emerald-700 hover:underline flex items-center">
-                        <i class="fa-solid fa-circle-question mr-1.5"></i> {{ showHelp ? 'Sembunyikan Petunjuk Penggunaan' : 'Petunjuk Penggunaan' }}
+                        <i class="fa-solid fa-circle-info mr-1.5"></i> {{ showHelp ? 'Sembunyikan Petunjuk Penggunaan' : 'Petunjuk Penggunaan' }}
                     </button>
                     <div v-if="showHelp" class="mt-2 text-[11px] text-slate-600 bg-slate-50 p-3 rounded-lg border space-y-2">
                         <p>1. <b>Pilih Preset Template</b> di panel kiri untuk otomatis memuat draf surat resmi.</p>
@@ -129,7 +134,7 @@
                 <div class="flex items-center justify-between pt-1">
                     <span class="text-[10px] text-slate-400">Developer: <a href="https://pcipnukabbanjar.my.id/" target="_blank" class="underline text-emerald-700 font-bold">PC IPNU Kabupaten Banjar</a></span>
                     <button @click="submitWelcomeForm" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl shadow-lg shadow-emerald-600/30 transition">
-                        Mulai Gunakan <i class="fa-solid fa-arrow-right ml-1"></i>
+                        Mulai Gunakan <i class="fa-solid fa-arrow-right-to-bracket ml-1"></i>
                     </button>
                 </div>
             </div>
@@ -154,13 +159,13 @@
                 </div>
                 <div class="flex items-center space-x-2 md:space-x-3">
                     <button @click="showWelcomeModal = true" class="text-xs bg-white/10 hover:bg-white/20 border border-white/20 text-emerald-50 px-3 py-1.5 md:py-2 rounded-lg flex items-center transition backdrop-blur-sm" title="Bantuan">
-                        <i class="fa-solid fa-circle-question mr-1"></i> <span class="hidden sm:inline">Bantuan</span>
+                        <i class="fa-solid fa-circle-info mr-1"></i> <span class="hidden sm:inline">Bantuan</span>
                     </button>
                     <button @click="resetForm" class="text-xs bg-white/10 hover:bg-white/20 border border-white/20 text-emerald-50 px-3 py-1.5 md:py-2 rounded-lg flex items-center transition backdrop-blur-sm" title="Reset Form">
-                        <i class="fa-solid fa-rotate-left mr-1.5"></i> <span class="hidden sm:inline">Reset</span>
+                        <i class="fa-solid fa-arrow-rotate-left mr-1.5"></i> <span class="hidden sm:inline">Reset</span>
                     </button>
                     <button @click="saveProfile" class="text-xs bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold px-3 py-1.5 md:py-2 rounded-lg flex items-center transition shadow-lg shadow-emerald-500/30">
-                        <i class="fa-solid fa-floppy-disk mr-1.5"></i> <span class="hidden sm:inline">Simpan Profil</span>
+                        <i class="fa-solid fa-cloud-arrow-up mr-1.5"></i> <span class="hidden sm:inline">Simpan Profil</span>
                     </button>
                 </div>
             </div>
@@ -217,19 +222,19 @@
                 <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-[8px_8px_24px_rgba(15,23,42,0.08),-6px_-6px_18px_rgba(255,255,255,0.9)] border border-white/80 overflow-hidden">
                     <div class="flex border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600 overflow-x-auto">
                         <button @click="activeTab = 'identitas'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'identitas'}" class="px-3 py-3 flex-1 text-center whitespace-nowrap transition">
-                            <i class="fa-solid fa-sitemap mr-1"></i> Identitas
+                            <i class="fa-solid fa-building-columns mr-1"></i> Identitas
                         </button>
                         <button @click="activeTab = 'surat'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'surat'}" class="px-3 py-3 flex-1 text-center whitespace-nowrap transition">
-                            <i class="fa-solid fa-envelope-open-text mr-1"></i> Surat
+                            <i class="fa-solid fa-envelope mr-1"></i> Surat
                         </button>
                         <button @click="activeTab = 'isi'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'isi'}" class="px-3 py-3 flex-1 text-center whitespace-nowrap transition">
-                            <i class="fa-solid fa-paragraph mr-1"></i> Isi
+                            <i class="fa-solid fa-file-lines mr-1"></i> Isi
                         </button>
                         <button @click="activeTab = 'ttd'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'ttd'}" class="px-3 py-3 flex-1 text-center whitespace-nowrap transition">
-                            <i class="fa-solid fa-pen-nib mr-1"></i> TTD
+                            <i class="fa-solid fa-signature mr-1"></i> TTD
                         </button>
                         <button @click="activeTab = 'kustom'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'kustom'}" class="px-3 py-3 flex-1 text-center whitespace-nowrap transition">
-                            <i class="fa-solid fa-ruler-combined mr-1"></i> Kustom
+                            <i class="fa-solid fa-sliders mr-1"></i> Kustom
                         </button>
                     </div>
 
@@ -275,14 +280,14 @@
                             <!-- Dual Custom Logos Upload (IPNU & IPPNU) -->
                             <div class="pt-2 border-t border-slate-200 grid grid-cols-2 gap-2">
                                 <div>
-                                    <label class="block text-[11px] font-medium text-slate-700 mb-1"><i class="fa-solid fa-image mr-1"></i> Logo IPNU Custom</label>
+                                    <label class="block text-[11px] font-medium text-slate-700 mb-1"><i class="fa-solid fa-image mr-1" aria-hidden="true"></i> Logo IPNU Custom</label>
                                     <input type="file" accept="image/*" @change="handleIpnuLogo" class="w-full text-[10px] border border-slate-300 rounded p-1 bg-slate-50 mb-1">
                                     <button v-if="customIpnuLogo" @click="customIpnuLogo = null" class="w-full text-[10px] bg-red-100 text-red-600 hover:bg-red-200 py-1.5 rounded font-semibold transition mt-1">
                                         <i class="fa-solid fa-trash-can"></i> Hapus Logo IPNU
                                     </button>
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-medium text-slate-700 mb-1"><i class="fa-solid fa-image mr-1"></i> Logo IPPNU Custom</label>
+                                    <label class="block text-[11px] font-medium text-slate-700 mb-1"><i class="fa-solid fa-image mr-1" aria-hidden="true"></i> Logo IPPNU Custom</label>
                                     <input type="file" accept="image/*" @change="handleIppnuLogo" class="w-full text-[10px] border border-slate-300 rounded p-1 bg-slate-50 mb-1">
                                     <button v-if="customIppnuLogo" @click="customIppnuLogo = null" class="w-full text-[10px] bg-red-100 text-red-600 hover:bg-red-200 py-1.5 rounded font-semibold transition mt-1">
                                         <i class="fa-solid fa-trash-can"></i> Hapus Logo IPPNU
@@ -323,9 +328,9 @@
                             <div class="flex items-center justify-between bg-slate-100 p-2 rounded-lg border border-slate-200">
                                 <span class="text-[11px] font-bold text-slate-700"><i class="fa-solid fa-wand-magic-sparkles text-emerald-600 mr-1"></i> Format Teks Aktif</span>
                                 <div class="space-x-1">
-                                    <button type="button" @click="formatText('bold')" class="px-2.5 py-1 border rounded bg-white hover:bg-slate-50 font-bold text-xs shadow-sm" title="Bold">B</button>
-                                    <button type="button" @click="formatText('italic')" class="px-2.5 py-1 border rounded bg-white hover:bg-slate-50 italic text-xs shadow-sm" title="Italic">I</button>
-                                    <button type="button" @click="formatText('underline')" class="px-2.5 py-1 border rounded bg-white hover:bg-slate-50 underline text-xs shadow-sm" title="Underline">U</button>
+                                    <button type="button" @click="formatText('bold')" class="px-2.5 py-1 border rounded bg-white hover:bg-slate-50 font-bold text-xs shadow-sm" title="Tebal" aria-label="Tebalkan teks"><i class="fa-solid fa-bold" aria-hidden="true"></i></button>
+                                    <button type="button" @click="formatText('italic')" class="px-2.5 py-1 border rounded bg-white hover:bg-slate-50 italic text-xs shadow-sm" title="Miring" aria-label="Miringkan teks"><i class="fa-solid fa-italic" aria-hidden="true"></i></button>
+                                    <button type="button" @click="formatText('underline')" class="px-2.5 py-1 border rounded bg-white hover:bg-slate-50 underline text-xs shadow-sm" title="Garis bawah" aria-label="Garisbawahi teks"><i class="fa-solid fa-underline" aria-hidden="true"></i></button>
                                 </div>
                             </div>
 
@@ -485,7 +490,7 @@
   <i class="fa-solid fa-file-pdf mr-2"></i> {{ isExporting ? 'Memproses...' : 'Download PDF' }}
 </button>
                     <button @click="downloadImage" :disabled="isExporting" class="flex-1 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center transition shadow-lg shadow-emerald-700/15 text-xs md:text-sm disabled:opacity-50">
-                        <i class="fa-solid fa-image mr-2"></i> {{ isExporting ? 'Memproses JPG...' : 'Download Gambar (JPG)' }}
+                        <i class="fa-solid fa-file-image mr-2"></i> {{ isExporting ? 'Memproses JPG...' : 'Download Gambar (JPG)' }}
                     </button>
                     <button @click="printSurat" class="flex-1 bg-slate-700/90 hover:bg-slate-800 text-white font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center transition shadow-lg text-xs md:text-sm">
                         <i class="fa-solid fa-print mr-2"></i> Cetak Kertas
