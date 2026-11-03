@@ -978,6 +978,8 @@
             },
             mounted() {
                 this.randomQuote = this.getRandomQuote();
+                // Use one background-removed IPPNU asset for header/logo preview and PDF export.
+                this.loadDefaultIppnuLogo();
 
                 const saved = localStorage.getItem('ipnu_banjar_profile_pdf');
                 if (saved) {
@@ -1012,15 +1014,75 @@
                 },
                 // -----------------------------
 
-                uploadLogo(event, type) {
-                    const file = event.target.files[0];                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = (e) => {
-                            if (type === 'ipnu') this.customLogoIpnu = e.target.result;
-                            if (type === 'ippnu') this.customLogoIppnu = e.target.result;
+                async removeLightBackground(file) {
+                    const sourceUrl = URL.createObjectURL(file);
+                    try {
+                        const image = new Image();
+                        await new Promise((resolve, reject) => {
+                            image.onload = resolve;
+                            image.onerror = reject;
+                            image.src = sourceUrl;
+                        });
+                        const scale = Math.min(1, 1400 / Math.max(image.naturalWidth, image.naturalHeight));
+                        const width = Math.max(1, Math.round(image.naturalWidth * scale));
+                        const height = Math.max(1, Math.round(image.naturalHeight * scale));
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                        ctx.drawImage(image, 0, 0, width, height);
+                        const frame = ctx.getImageData(0, 0, width, height);
+                        const pixels = frame.data, total = width * height;
+                        const visited = new Uint8Array(total), queue = new Uint32Array(total);
+                        let head = 0, tail = 0;
+                        const isBackground = index => {
+                            const p = index * 4;
+                            const r = pixels[p], g = pixels[p + 1], b = pixels[p + 2];
+                            return Math.min(r, g, b) >= 218 && Math.max(r, g, b) - Math.min(r, g, b) <= 34;
                         };
-                        reader.readAsDataURL(file);
+                        const add = index => {
+                            if (!visited[index] && isBackground(index)) { visited[index] = 1; queue[tail++] = index; }
+                        };
+                        for (let x = 0; x < width; x++) { add(x); add((height - 1) * width + x); }
+                        for (let y = 0; y < height; y++) { add(y * width); add(y * width + width - 1); }
+                        while (head < tail) {
+                            const i = queue[head++], x = i % width;
+                            if (x > 0) add(i - 1);
+                            if (x < width - 1) add(i + 1);
+                            if (i >= width) add(i - width);
+                            if (i + width < total) add(i + width);
+                        }
+                        for (let i = 0; i < total; i++) if (visited[i]) pixels[i * 4 + 3] = 0;
+                        ctx.putImageData(frame, 0, 0);
+                        const png = await new Promise((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG gagal dibuat')), 'image/png'));
+                        return await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = () => resolve(reader.result);
+                            reader.onerror = reject;
+                            reader.readAsDataURL(png);
+                        });
+                    } finally { URL.revokeObjectURL(sourceUrl); }
+                },
+                async loadDefaultIppnuLogo() {
+                    if (this.customLogoIppnu) return;
+                    try {
+                        const response = await fetch('/images/ippnu.png', { cache: 'force-cache' });
+                        if (!response.ok) throw new Error('Logo IPPNU default tidak ditemukan');
+                        const transparentLogo = await this.removeLightBackground(await response.blob());
+                        if (!this.customLogoIppnu) this.customLogoIppnu = transparentLogo;
+                    } catch (error) { console.warn('Pemrosesan logo IPPNU bawaan dilewati:', error); }
+                },
+                async uploadLogo(event, type) {
+                    const file = event.target.files[0];
+                    if (!file) return;
+                    if (type === 'ippnu') {
+                        try { this.customLogoIppnu = await this.removeLightBackground(file); }
+                        catch (error) { console.error(error); alert('Latar logo tidak dapat diproses. Silakan gunakan PNG transparan.'); }
+                        return;
                     }
+                    const reader = new FileReader();
+                    reader.onload = e => { this.customLogoIpnu = e.target.result; };
+                    reader.readAsDataURL(file);
                 },
                 saveProfile() {
                     const profile = {
