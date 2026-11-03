@@ -229,6 +229,17 @@
             box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.2);
         }
         .modal-btn:hover { background: #047857; }
+    
+        /* Visual alignment with Editor Naskah workspace */
+        .surat-document { box-sizing: border-box; background: #fff; }
+        #printable-surat { width: 210mm; min-height: 297mm; }
+        @media (max-width: 1023px) {
+            #printable-surat { transform-origin: top left; }
+        }
+        @media print {
+            #printable-surat { width: 210mm !important; min-height: 297mm !important; padding: 15mm !important; }
+        }
+        .no-print button, .no-print select { -webkit-tap-highlight-color: transparent; }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col">\n    <div class="no-print bg-emerald-950 text-white px-4 py-2 flex items-center justify-between gap-3 text-xs"><a href="/tools/" class="inline-flex items-center gap-2 font-bold"><img src="https://ahmatbadali.my.id/img/LOGOIPNU.png" class="w-6 h-6 rounded-full bg-white object-contain p-0.5" alt="Logo IPNU"> PC IPNU KABUPATEN BANJAR</a><a href="/tools/" class="text-emerald-100 hover:text-white underline">← Kembali ke Tools</a></div>
@@ -274,10 +285,10 @@
         <!-- ===== BAGIAN MODAL SELESAI ===== -->
         
         <!-- Navbar Header -->
-        <header class="bg-emerald-800 text-white shadow-md no-print sticky top-0 z-40">
+        <header class="bg-gradient-to-r from-emerald-950 via-emerald-800 to-green-700 text-white shadow-xl shadow-emerald-900/20 border-b border-emerald-600/30 no-print sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
             <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <div class="bg-emerald-600 p-2 rounded-lg flex items-center justify-center">
+                    <div class="bg-white/10 p-2.5 rounded-xl border border-white/20 shadow-inner flex items-center justify-center">
                         <i class="fa-solid fa-file-signature text-xl"></i>
                     </div>
                     <div>
@@ -299,10 +310,10 @@
         </header>
 
         <!-- Main Workspace -->
-        <main class="flex-1 max-w-7xl w-full mx-auto p-3 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <main class="flex-1 max-w-7xl w-full mx-auto p-3 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start relative">
             
             <!-- LEFT PANEL: Form Inputs -->
-            <div class="lg:col-span-6 space-y-4 no-print overflow-y-auto max-h-[calc(100vh-100px)] pr-1">
+            <div class="lg:col-span-5 space-y-4 no-print pb-8 lg:sticky lg:top-20 pr-1">
                 
                 <!-- Quick Preset Selection - Enhanced with Categories -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
@@ -620,9 +631,9 @@
             </div>
 
             <!-- RIGHT PANEL: Live Document Paper Preview -->
-            <div class="lg:col-span-6 flex justify-center items-start">
+            <div class="lg:col-span-7 flex flex-col w-full max-w-full overflow-x-auto pb-8 pt-2 lg:pt-0 bg-slate-200 p-2 md:p-4 rounded-xl shadow-inner">
                 
-                <div class="w-full max-w-[210mm] bg-white shadow-xl rounded-sm p-6 md:p-8 surat-document border border-slate-200 min-h-[297mm] flex flex-col" id="printable-surat">
+                <div class="w-[210mm] max-w-none bg-white shadow-xl rounded-sm p-[15mm] surat-document border border-slate-300 min-h-[297mm] flex flex-col origin-top-left" id="printable-surat">
                     
                     <div class="surat-container">
                         <!-- Kop Surat -->
