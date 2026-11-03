@@ -997,4 +997,266 @@
                 // -----------------------------
 
                 uploadLogo(event, type) {
+                    const file = event.target.files[0];                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            if (type === 'ipnu') this.customLogoIpnu = e.target.result;
+                            if (type === 'ippnu') this.customLogoIppnu = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                },
+                saveProfile() {
+                    const profile = {
+                        tingkat: this.form.tingkat,
+                        namaWilayah: this.form.namaWilayah,
+                        alamat: this.form.alamat,
+                        telepon: this.form.telepon,
+                        email: this.form.email,
+                        website: this.form.website,
+                        ketuaIpnu: this.form.ketuaIpnu,
+                        niaIpnu: this.form.niaIpnu,
+                        ketuaIppnu: this.form.ketuaIppnu,
+                        niaIppnu: this.form.niaIppnu,
+                        kotaSurat: this.form.kotaSurat
+                    };
+                    localStorage.setItem('ipnu_banjar_profile_pdf', JSON.stringify(profile));
+                    alert('Profil organisasi berhasil disimpan di browser!');
+                },
+                resetForm() {
+                    if (confirm('Apakah Anda yakin ingin mengosongkan/reset isian form?')) {
+                        this.form.nomorSurat = '';
+                        this.form.perihal = '';
+                        this.form.penerima = '';
+                        this.form.hariAcara = '';
+                        this.form.tanggalAcara = '';
+                        this.form.waktuAcara = '';
+                        this.form.tempatAcara = '';
+                        this.form.paragrafPembuka = '';
+                        this.form.paragrafPenutup = '';
+                        this.form.paragrafIsi = '';
+                        this.form.tujuanEdaran = '';
+                        this.form.tujuanPerjalanan = '';
+                        this.form.lamaPerjalanan = '';
+                        this.form.namaKader = '';
+                        this.form.statusKader = '';
+                        this.form.jabatanTambahan = '';
+                        this.form.namaTambahan = '';
+                        this.form.suratType = '';
+                    }
+                },
+                loadPreset(type) {
+                    this.form.tujuanEdaran = '';
+                    this.form.tujuanPerjalanan = '';
+                    this.form.lamaPerjalanan = '';
+                    this.form.namaKader = '';
+                    this.form.statusKader = '';
+                    this.form.jabatanTambahan = '';
+                    this.form.namaTambahan = '';
+                    this.form.suratType = type;
+                    
+                    const templates = {
+                        'undangan_rapat': {
+                            perihal: 'UNDANGAN RAPAT PENGURUS',
+                            penerima: 'Rekan dan Rekanita Pengurus\nIPNU IPPNU',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan, semoga Allah SWT senantiasa memberikan rahmat-Nya kepada kita semua. Mengharap kehadiran Rekan dan Rekanita dalam Rapat Pengurus yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Rapat ini membahas tentang persiapan kegiatan rutin dan evaluasi program kerja yang telah berjalan. Kehadiran seluruh pengurus sangat diharapkan untuk kelancaran diskusi dan pengambilan keputusan bersama.',
+                            paragrafPenutup: 'Demikian undangan ini kami sampaikan, atas kehadiran dan partisipasinya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'undangan_harlah': {
+                            perihal: 'UNDANGAN HARLAH IPNU IPPNU',
+                            penerima: 'Rekan dan Rekanita IPNU IPPNU\nSegenap Pengurus MWC NU',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dalam rangka memperingati Hari Lahir (Harlah) IPNU dan IPPNU, kami mengundang segenap rekan dan rekanita untuk hadir dalam acara yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Acara Harlah kali ini akan diisi dengan berbagai kegiatan seperti tausiyah, pentas seni, dan bakti sosial sebagai wujud syukur dan kebersamaan organisasi. Kami mengajak seluruh anggota untuk memeriahkan acara ini.',
+                            paragrafPenutup: 'Demikian undangan ini kami sampaikan, atas perhatian dan kehadirannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'undangan_pembina': {
+                            perihal: 'UNDANGAN PEMBINA',
+                            penerima: 'Yth. Bapak/Ibu Pembina\nIPNU IPPNU',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Kami mengundang Bapak/Ibu Pembina untuk menghadiri kegiatan pembinaan rutin yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Kegiatan pembinaan ini merupakan agenda rutin yang bertujuan untuk memberikan arahan, motivasi, dan bimbingan kepada pengurus IPNU IPPNU. Kehadiran dan bimbingan Bapak/Ibu sangat kami nantikan.',
+                            paragrafPenutup: 'Demikian undangan ini kami sampaikan, atas kehadiran Bapak/Ibu Pembina kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'permohonan_pemateri': {
+                            perihal: 'PERMOHONAN PEMATERI/NARASUMBER',
+                            penerima: 'Yth. Pemateri / Narasumber',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Sehubungan dengan akan dilaksanakannya kegiatan Pelatihan Kaderisasi (MAKESTA), kami memohon kesediaan Rekan/Rekanita untuk menjadi narasumber/pemateri pada:',
+                            paragrafIsi: 'Materi yang akan disampaikan berkaitan dengan penguatan organisasi, kepemimpinan, dan manajemen kader. Kami sangat membutuhkan ilmu dan pengalaman dari Rekan/Rekanita untuk membekali para kader IPNU IPPNU.',
+                            paragrafPenutup: 'Demikian permohonan ini kami sampaikan, atas kesediaan dan bantuannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'permohonan_tempat': {
+                            perihal: 'PERMOHONAN TEMPAT/FASILITAS',
+                            penerima: 'Yth. Pengelola Gedung\nMWC NU',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Sehubungan dengan akan dilaksanakannya kegiatan IPNU IPPNU, kami mengajukan permohonan izin penggunaan tempat/fasilitas yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Kegiatan yang akan kami selenggarakan adalah pelatihan kaderisasi yang membutuhkan ruangan yang representatif. Kami mohon izin untuk menggunakan gedung dan fasilitas yang tersedia untuk kelancaran acara.',
+                            paragrafPenutup: 'Demikian permohonan ini kami sampaikan, atas izin dan bantuannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'permohonan_dana': {
+                            perihal: 'PERMOHONAN BANTUAN DANA',
+                            penerima: 'Yth. Bapak/Ibu Donatur\n& Pihak Terkait',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dalam rangka menyukseskan kegiatan IPNU IPPNU, dengan ini kami menyampaikan permohonan bantuan dana/sponsorship yang akan digunakan untuk kegiatan pada:',
+                            paragrafIsi: 'Kegiatan yang akan kami laksanakan membutuhkan biaya operasional untuk konsumsi, transportasi, dan perlengkapan acara. Kami berharap Bapak/Ibu berkenan memberikan bantuan dana untuk menyukseskan acara ini.',
+                            paragrafPenutup: 'Demikian permohonan ini kami sampaikan, atas perhatian dan bantuannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'permohonan_rekomendasi': {
+                            perihal: 'PERMOHONAN REKOMENDASI/DUKUNGAN',
+                            penerima: 'Yth. Ketua MWC NU\nKecamatan Tembarak',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami mengajukan permohonan rekomendasi/dukungan dari Bapak/Ibu untuk kegiatan yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Kami memohon dukungan dan rekomendasi dari MWC NU agar kegiatan yang kami rencanakan dapat berjalan lancar dan mendapat dukungan penuh dari semua pihak. Dukungan Bapak/Ibu sangat berarti bagi kami.',
+                            paragrafPenutup: 'Demikian permohonan ini kami sampaikan, atas perhatian dan dukungannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'sp_pengesahan': {
+                            perihal: 'SURAT PENGESAHAN KEPENGURUSAN',
+                            penerima: 'Yth. Pimpinan Anak Cabang IPNU IPPNU\nKecamatan Tembarak',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami mengesahkan susunan kepengurusan Pimpinan Anak Cabang IPNU IPPNU Kecamatan Tembarak masa khidmat 2026-2028 sebagaimana terlampir.',
+                            paragrafIsi: 'Kepengurusan yang telah disahkan ini diharapkan dapat menjalankan amanah organisasi dengan penuh tanggung jawab dan dedikasi tinggi. Semoga kepengurusan ini membawa kemajuan bagi IPNU IPPNU Kecamatan Tembarak.',
+                            paragrafPenutup: 'Demikian surat pengesahan ini kami sampaikan, semoga amanah ini dapat dijalankan dengan sebaik-baiknya. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'rekomendasi': {
+                            perihal: 'SURAT REKOMENDASI',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami memberikan rekomendasi kepada Pimpinan Anak Cabang IPNU IPPNU Kecamatan Tembarak untuk diajukan pengesahan kepengurusannya ke tingkat atas.',
+                            paragrafIsi: 'Setelah melakukan verifikasi dan evaluasi, kami merekomendasikan kepengurusan PAC IPNU IPPNU Kecamatan Tembarak untuk mendapatkan pengesahan resmi dari Pimpinan Cabang. Semoga dapat menjadi pertimbangan.',
+                            paragrafPenutup: 'Demikian surat rekomendasi ini kami sampaikan, semoga menjadi pertimbangan. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'mandat': {
+                            perihal: 'SURAT MANDAT',
+                            penerima: 'Yth. Rekan/Rekanita yang diberi Mandat',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami memberikan mandat kepada rekan/rekanita untuk mewakili organisasi dalam kegiatan yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Rekan/Rekanita yang diberi mandat ini memiliki kewenangan penuh untuk mengambil keputusan dan bertindak atas nama organisasi dalam kegiatan yang dimaksud. Semoga amanah ini dapat diemban dengan baik.',
+                            paragrafPenutup: 'Demikian surat mandat ini kami sampaikan, semoga dapat dilaksanakan dengan penuh tanggung jawab. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'surat_tugas': {
+                            perihal: 'SURAT TUGAS',
+                            penerima: 'Yth. Tim Pelaksana Kegiatan',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami menugaskan rekan/rekanita untuk melaksanakan tugas kepanitiaan dalam kegiatan yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Tugas yang diberikan meliputi koordinasi acara, pengelolaan peserta, dan pelaksanaan teknis kegiatan. Diharapkan tugas ini dapat dilaksanakan dengan profesional dan penuh tanggung jawab.',
+                            paragrafPenutup: 'Demikian surat tugas ini kami sampaikan, semoga dapat dilaksanakan dengan baik. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'pemberitahuan': {
+                            perihal: 'PEMBERITAHUAN KEGIATAN',
+                            penerima: 'Yth. Ketua MWC NU\nKecamatan Tembarak',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Bersama surat ini kami beritahukan bahwa Pimpinan Anak Cabang IPNU IPPNU akan menyelenggarakan agenda yang akan dilaksanakan pada:',
+                            paragrafIsi: 'Kami menyampaikan pemberitahuan ini agar semua pihak dapat mengetahui dan memberikan dukungan terhadap kegiatan yang akan kami selenggarakan. Informasi lebih lanjut dapat menghubungi sekretariat kami.',
+                            paragrafPenutup: 'Demikian pemberitahuan ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'instruksi': {
+                            perihal: 'INSTRUKSI PELAKSANAAN KEGIATAN',
+                            penerima: 'Seluruh Pimpinan Anak Cabang IPNU IPPNU\nse-Kabupaten Kabupaten Banjar',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami menginstruksikan kepada seluruh PAC IPNU IPPNU untuk segera melaksanakan kegiatan kaderisasi sesuai dengan pedoman yang telah ditetapkan.',
+                            paragrafIsi: 'Instruksi ini wajib dilaksanakan oleh seluruh PAC dengan mengikuti prosedur dan ketentuan yang berlaku. Laporan pelaksanaan kegiatan harus disampaikan paling lambat 7 hari setelah kegiatan selesai.',
+                            paragrafPenutup: 'Demikian instruksi ini kami sampaikan, agar dilaksanakan dengan sebaik-baiknya. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'edaran': {
+                            perihal: 'SURAT EDARAN HARLAH IPNU IPPNU',
+                            penerima: 'Seluruh Pimpinan Anak Cabang IPNU IPPNU\nse-Kabupaten Kabupaten Banjar',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dalam rangka memperingati Harlah IPNU dan IPPNU, dengan ini kami edarkan panduan pelaksanaan kegiatan yang akan dilaksanakan secara serentak pada:',
+                            paragrafIsi: 'Seluruh PAC diwajibkan mengikuti panduan yang telah ditetapkan dalam pelaksanaan Harlah. Panduan teknis telah dilampirkan dan mohon untuk dipelajari serta dilaksanakan dengan sebaik-baiknya.',
+                            paragrafPenutup: 'Demikian surat edaran ini kami sampaikan, mohon untuk disebarluaskan dan dilaksanakan. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        },
+                        'keterangan_aktif': {
+                            perihal: 'SURAT KETERANGAN AKTIF/KADER',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami menerangkan bahwa kader yang bersangkutan adalah anggota aktif IPNU IPPNU.',
+                            paragrafIsi: 'Surat keterangan ini diberikan untuk keperluan administrasi yang bersangkutan. Keterangan ini berlaku selama yang bersangkutan masih terdaftar sebagai anggota aktif organisasi.',
+                            paragrafPenutup: 'Demikian surat keterangan ini kami buat untuk dapat digunakan sebagaimana mestinya. Wassalamu\'alaikum warahmatullahi wabarakatuh.',
+                            namaKader: 'Muhammad Fikri Al-Ghifari',
+                            statusKader: 'Pengurus IPNU / Alumni MAKESTA'
+                        },
+                        'spd': {
+                            perihal: 'SURAT PERJALANAN DINAS',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami memberikan izin perjalanan dinas kepada rekan/rekanita untuk melaksanakan tugas organisasi di luar daerah.',
+                            paragrafIsi: 'Perjalanan dinas ini bertujuan untuk menjalin koordinasi dan silaturahmi dengan pengurus di daerah lain serta mengikuti kegiatan organisasi tingkat wilayah.',
+                            paragrafPenutup: 'Demikian surat perjalanan dinas ini kami sampaikan, semoga perjalanan dilancarkan. Wassalamu\'alaikum warahmatullahi wabarakatuh.',
+                            tujuanPerjalanan: 'Kota Surabaya, Jawa Timur',
+                            lamaPerjalanan: '3 (tiga) hari'
+                        },
+                        'balasan': {
+                            perihal: 'SURAT BALASAN/JAWABAN',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            paragrafPembuka: 'Salam silaturahmi kami sampaikan. Menindaklanjuti surat permohonan yang telah kami terima, dengan ini kami sampaikan jawaban/konfirmasi sebagai berikut:',
+                            paragrafIsi: 'Kami menerima dan menyetujui permohonan yang diajukan. Selanjutnya kami akan melakukan koordinasi lebih lanjut untuk tindak lanjut dari permohonan tersebut.',
+                            paragrafPenutup: 'Demikian surat balasan ini kami sampaikan, semoga dapat dimaklumi. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
+                        }
+                    };
+                    
+                    if (templates[type]) {
+                        const tpl = templates[type];
+                        this.form.perihal = tpl.perihal || '';
+                        this.form.penerima = tpl.penerima || '';
+                        this.form.paragrafPembuka = tpl.paragrafPembuka || '';
+                        this.form.paragrafIsi = tpl.paragrafIsi || '';
+                        this.form.paragrafPenutup = tpl.paragrafPenutup || '';
+                        this.form.namaKader = tpl.namaKader || '';
+                        this.form.statusKader = tpl.statusKader || '';
+                        this.form.tujuanPerjalanan = tpl.tujuanPerjalanan || '';
+                        this.form.lamaPerjalanan = tpl.lamaPerjalanan || '';
+                        
+                        if (type === 'edaran' || type === 'instruksi') {
+                            this.form.tujuanEdaran = this.form.penerima;
+                        }
+                    }
+                },
+                uploadSign(event, field) {
                     const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            if (field === 'signIpnu') this.customSignIpnu = e.target.result;
+                            if (field === 'signIppnu') this.customSignIppnu = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                },
+                downloadPdf() {
+                    const element = document.getElementById('printable-surat');
+                    if (!element) return;
+
+                    this.isGeneratingPdf = true;
+
+                    const filename = `Surat_IPNU_IPPNU_${(this.form.perihal || 'Dokumen').replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
+
+                    const opt = {
+                        margin:       [15, 15, 15, 15],
+                        filename:     filename,
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2, useCORS: true, logging: false },
+                        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                    };
+
+                    html2pdf().set(opt).from(element).save().then(() => {
+                        this.isGeneratingPdf = false;
+                    }).catch(err => {
+                        console.error('PDF Generation Error:', err);
+                        this.isGeneratingPdf = false;
+                        alert('Gagal menghasilkan PDF. Silakan gunakan tombol "Cetak Langsung" lalu pilih Save as PDF.');
+                    });
+                },
+                printSurat() {
+                    window.print();
+                },
+                downloadDocx() {
+                    const content = document.getElementById('printable-surat').innerHTML;
+                    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+                        "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+                        "xmlns='http://www.w3.org/TR/REC-html40'>"+
+                        "<head><meta charset='utf-8'><title>Surat Undangan</title>"+
+                        "<style>body { font-family: 'Arial Narrow', Arial, sans-serif; font-size: 12pt; }</style>"+
+                        "</head><body>";
+                    const footer = "</body></html>";
+                    const sourceHTML = header + content + footer;
+
+                    const source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+                    const fileDownload = document.createElement("a");
+                    document.body.appendChild(fileDownload);
+                    fileDownload.href = source;
+                    fileDownload.download = `Surat_IPNU_IPPNU_${this.form.perihal.replace(/\s+/g, '_')}.doc`;
+                    fileDownload.click();
+                    document.body.removeChild(fileDownload);
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
