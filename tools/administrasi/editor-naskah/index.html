@@ -1176,6 +1176,7 @@
                     if (editorPenutup) { editorPenutup.innerHTML = this.form.paragrafPenutup; this.updatePenutup(); }
                 },
                 async downloadPdf() {
+                    await this.loadDefaultIppnuLogo();
                     const element = document.getElementById('printable-surat');
                     if (!element) return;
                     this.isExporting = true;
@@ -1198,6 +1199,7 @@
                     }
                 },
                 async downloadImage() {
+                    await this.loadDefaultIppnuLogo();
                     const element = document.getElementById('printable-surat');
                     if (!element) return;
                     this.isExporting = true;
@@ -1222,7 +1224,8 @@
                         this.isExporting = false;
                     }
                 },
-                printSurat() {
+                async printSurat() {
+                    await this.loadDefaultIppnuLogo();
                     window.print();
                 }
             }
