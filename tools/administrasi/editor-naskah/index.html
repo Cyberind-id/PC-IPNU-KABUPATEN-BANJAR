@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPNU Banjar Admin — Editor Naskah & Gambar Surat</title>
+    <link rel="icon" type="image/png" href="https://ahmatbadali.my.id/img/LOGOIPNU.png">
+    <link rel="apple-touch-icon" href="https://ahmatbadali.my.id/img/LOGOIPNU.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Vue 3 CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js" crossorigin="anonymous"></script>
+    <!-- html2pdf for A4 PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" crossorigin="anonymous"></script>
     <!-- html2canvas for Client-side JPG Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
     <!-- Google Fonts -->
@@ -61,9 +65,15 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #34d399; border-radius: 10px; border: 2px solid #f1f5f9; }
         ::-webkit-scrollbar-thumb:hover { background: #10b981; }
-    </style>
+            /* Liquid glass accents; layout and spacing remain Tailwind utility-driven. */
+        body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(circle at 8% 12%, rgba(16,185,129,.12), transparent 28%), radial-gradient(circle at 92% 82%, rgba(20,184,166,.10), transparent 30%); }
+        .no-print button { transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; }
+        .no-print button:active { transform: scale(.97); filter: saturate(1.15); }
+        .surat-document { box-sizing: border-box; }
+</style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col">\n    <div class="no-print bg-emerald-950 text-white px-4 py-2 flex items-center justify-between gap-3 text-xs"><a href="/tools/" class="inline-flex items-center gap-2 font-bold"><img src="https://ahmatbadali.my.id/img/LOGOIPNU.png" class="w-6 h-6 rounded-full bg-white object-contain p-0.5" alt="Logo IPNU"> PC IPNU KABUPATEN BANJAR</a><a href="/tools/" class="text-emerald-100 hover:text-white underline">← Kembali ke Tools</a></div>
+<body class="bg-gradient-to-br from-emerald-50 via-slate-100 to-teal-50 text-slate-800 antialiased min-h-screen flex flex-col">
+    <div class="no-print bg-emerald-950/90 backdrop-blur-xl text-white px-4 py-2 flex items-center justify-between gap-3 text-xs border-b border-white/10 shadow-lg shadow-emerald-950/10"><a href="/tools/" class="inline-flex items-center gap-2 font-bold"><img src="https://ahmatbadali.my.id/img/LOGOIPNU.png" class="w-6 h-6 rounded-full bg-white object-contain p-0.5" alt="Logo IPNU"> PC IPNU KABUPATEN BANJAR</a><a href="/tools/" class="text-emerald-100 hover:text-white underline">← Kembali ke Tools</a></div>
 
     <div id="app" class="flex flex-col flex-1">
 
@@ -126,7 +136,7 @@
         </div>
 
         <!-- Navbar Header (Gradient Green with Glassmorphism) -->
-        <header class="bg-gradient-to-r from-emerald-950 via-emerald-800 to-green-700 text-white shadow-xl shadow-emerald-900/20 border-b border-emerald-600/30 no-print sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
+        <header class="bg-gradient-to-r from-emerald-950 via-emerald-800 to-green-700 text-white shadow-xl shadow-emerald-900/20 border-b border-emerald-500/30 backdrop-blur-xl shadow-emerald-900/20 border-b border-emerald-600/30 no-print sticky top-0 z-40 backdrop-blur-md bg-opacity-95">
             <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center space-x-3 md:space-x-4">
                     <div class="flex items-center bg-white/10 p-1 md:p-1.5 rounded-xl backdrop-blur-lg border border-white/20 shadow-inner">
@@ -163,7 +173,7 @@
             <div class="lg:col-span-5 space-y-4 no-print pb-8 lg:sticky lg:top-20">
                 
                 <!-- Preset Template Selection (Fully Mapped to Word Presets) -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                <div class="bg-white/75 backdrop-blur-xl p-4 rounded-2xl shadow-[8px_8px_24px_rgba(15,23,42,0.08),-6px_-6px_18px_rgba(255,255,255,0.9)] border border-white/80 transition-all duration-300 hover:-translate-y-0.5">
                     <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                         <i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Preset Template Surat Resmi (23+ Draf PPA)
                     </label>
@@ -204,7 +214,7 @@
                 </div>
 
                 <!-- Tab Control Form -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-[8px_8px_24px_rgba(15,23,42,0.08),-6px_-6px_18px_rgba(255,255,255,0.9)] border border-white/80 overflow-hidden">
                     <div class="flex border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600 overflow-x-auto">
                         <button @click="activeTab = 'identitas'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'identitas'}" class="px-3 py-3 flex-1 text-center whitespace-nowrap transition">
                             <i class="fa-solid fa-sitemap mr-1"></i> Identitas
@@ -471,6 +481,9 @@
 
                 <!-- Export Action Buttons -->
                 <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-2">
+                    <button @click="downloadPdf" :disabled="isExporting" class="flex-1 bg-gradient-to-r from-emerald-700 to-teal-600 hover:from-emerald-800 hover:to-teal-700 text-white font-semibold py-2.5 px-3 rounded-xl flex items-center justify-center transition shadow-lg shadow-emerald-700/20 text-xs md:text-sm disabled:opacity-50">
+  <i class="fa-solid fa-file-pdf mr-2"></i> {{ isExporting ? 'Memproses...' : 'Download PDF' }}
+</button>
                     <button @click="downloadImage" :disabled="isExporting" class="flex-1 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold py-2.5 px-3 rounded-lg flex items-center justify-center transition shadow text-xs md:text-sm disabled:opacity-50">
                         <i class="fa-solid fa-image mr-2"></i> {{ isExporting ? 'Memproses JPG...' : 'Download Gambar (JPG)' }}
                     </button>
@@ -484,7 +497,7 @@
             <!-- RIGHT PANEL: Live Document Paper Preview with Normalized Scaling -->
             <div class="lg:col-span-7 flex flex-col w-full max-w-full overflow-hidden pb-8 pt-4 lg:pt-0">
                 <!-- Wrapper ensures scale doesn't affect surrounding layout, keeping mobile and PC view consistent -->
-                <div class="w-full overflow-x-auto shadow-xl bg-slate-200 p-2 md:p-4 rounded-lg flex justify-start lg:justify-center items-start">
+                <div class="w-full overflow-x-auto bg-white/35 backdrop-blur-xl p-2 md:p-4 rounded-2xl border border-white/60 shadow-[inset_5px_5px_14px_rgba(15,23,42,0.08),inset_-5px_-5px_14px_rgba(255,255,255,0.8)] flex justify-start lg:justify-center items-start">
                     <div class="bg-white surat-document origin-top-left relative flex-shrink-0" 
                          id="printable-surat"
                          :style="{ 
@@ -1064,6 +1077,28 @@
                     if (editorIsi) { editorIsi.innerHTML = this.form.paragrafIsi; this.updateRichContent(); }
                     if (editorPembuka) { editorPembuka.innerHTML = this.form.paragrafPembuka; this.updatePembuka(); }
                     if (editorPenutup) { editorPenutup.innerHTML = this.form.paragrafPenutup; this.updatePenutup(); }
+                },
+                async downloadPdf() {
+                    const element = document.getElementById('printable-surat');
+                    if (!element) return;
+                    this.isExporting = true;
+                    try {
+                        const safeSubject = (this.form.perihal || 'Dokumen').replace(/[^a-zA-Z0-9_-]/g, '_');
+                        const options = {
+                            margin: [10, 10, 10, 10],
+                            filename: `Surat_IPNU_Banjar_${safeSubject}.pdf`,
+                            image: { type: 'jpeg', quality: 0.98 },
+                            html2canvas: { scale: 2, useCORS: true, allowTaint: false, backgroundColor: '#ffffff', logging: false },
+                            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                            pagebreak: { mode: ['css', 'legacy'] }
+                        };
+                        await html2pdf().set(options).from(element).save();
+                    } catch (err) {
+                        console.error(err);
+                        alert('Gagal membuat PDF. Silakan coba kembali atau gunakan Cetak Kertas.');
+                    } finally {
+                        this.isExporting = false;
+                    }
                 },
                 async downloadImage() {
                     const element = document.getElementById('printable-surat');
