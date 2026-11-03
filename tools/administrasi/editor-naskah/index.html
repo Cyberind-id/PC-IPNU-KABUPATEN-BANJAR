@@ -775,6 +775,8 @@
                 }
                 this.setDynamicGreetingAndQuote();
                 this.generateRealtimeDates();
+                // Process the built-in IPPNU logo too, so header icons, preview and exports share one transparent asset.
+                this.loadDefaultIppnuLogo();
                 
                 const editorPembuka = document.getElementById('editorPembuka');
                 const editorIsi = document.getElementById('richEditor');
@@ -881,6 +883,17 @@
                 handleIpnuLogo(e) {
                     const file = e.target.files[0];
                     if (file) this.customIpnuLogo = URL.createObjectURL(file);
+                },
+                async loadDefaultIppnuLogo() {
+                    if (this.customIppnuLogo) return;
+                    try {
+                        const response = await fetch('/images/ippnu.png', { cache: 'force-cache' });
+                        if (!response.ok) throw new Error('Logo IPPNU default tidak ditemukan');
+                        const blob = await response.blob();
+                        if (!this.customIppnuLogo) this.customIppnuLogo = await this.removeLightBackground(blob);
+                    } catch (error) {
+                        console.warn('Pemrosesan logo IPPNU bawaan dilewati:', error);
+                    }
                 },
                 async removeLightBackground(file) {
                     // Client-side removal for plain white/light backgrounds.
