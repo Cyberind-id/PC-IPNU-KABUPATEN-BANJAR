@@ -9,7 +9,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <!-- Vue 3 CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <!-- html2pdf.js for Client-side PDF Generation -->
@@ -332,33 +332,33 @@
                     <select v-model="form.suratType" @change="loadPreset($event.target.value)" class="w-full text-sm border border-slate-300 rounded-lg p-2.5 bg-slate-50 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                         <option value="">-- Pilih Jenis Surat --</option>
                         
-                        <optgroup label="📩 Surat Permohonan & Undangan">
-                            <option value="undangan_rapat">📋 Surat Undangan Rapat</option>
-                            <option value="undangan_harlah">🎉 Surat Undangan Harlah</option>
-                            <option value="undangan_pembina">👨‍🏫 Surat Undangan Pembina</option>
-                            <option value="permohonan_pemateri">🎤 Permohonan Pemateri/Narasumber</option>
-                            <option value="permohonan_tempat">🏢 Permohonan Tempat/Fasilitas</option>
-                            <option value="permohonan_dana">💰 Permohonan Bantuan Dana</option>
-                            <option value="permohonan_rekomendasi">📜 Permohonan Rekomendasi/Dukungan</option>
+                        <optgroup label=" Surat Permohonan & Undangan">
+                            <option value="undangan_rapat"> Surat Undangan Rapat</option>
+                            <option value="undangan_harlah"> Surat Undangan Harlah</option>
+                            <option value="undangan_pembina"> Surat Undangan Pembina</option>
+                            <option value="permohonan_pemateri"> Permohonan Pemateri/Narasumber</option>
+                            <option value="permohonan_tempat"> Permohonan Tempat/Fasilitas</option>
+                            <option value="permohonan_dana"> Permohonan Bantuan Dana</option>
+                            <option value="permohonan_rekomendasi"> Permohonan Rekomendasi/Dukungan</option>
                         </optgroup>
                         
                         <optgroup label="⚖️ Surat Ketetapan & Legalitas">
                             <option value="sp_pengesahan">✅ Surat Pengesahan (SP)</option>
-                            <option value="rekomendasi">📝 Surat Rekomendasi</option>
-                            <option value="mandat">🎯 Surat Mandat</option>
-                            <option value="surat_tugas">📋 Surat Tugas</option>
+                            <option value="rekomendasi"> Surat Rekomendasi</option>
+                            <option value="mandat"> Surat Mandat</option>
+                            <option value="surat_tugas"> Surat Tugas</option>
                         </optgroup>
                         
-                        <optgroup label="📢 Surat Pemberitahuan & Instruktif">
-                            <option value="pemberitahuan">📣 Surat Pemberitahuan</option>
+                        <optgroup label=" Surat Pemberitahuan & Instruktif">
+                            <option value="pemberitahuan"> Surat Pemberitahuan</option>
                             <option value="instruksi">⚡ Surat Instruksi</option>
-                            <option value="edaran">📰 Surat Edaran (SE)</option>
+                            <option value="edaran"> Surat Edaran (SE)</option>
                         </optgroup>
                         
-                        <optgroup label="📄 Surat Keterangan & Administratif">
-                            <option value="keterangan_aktif">🪪 Surat Keterangan Aktif/Kader</option>
-                            <option value="spd">🧳 Surat Perjalanan Dinas (SPD)</option>
-                            <option value="balasan">📨 Surat Balasan/Jawaban</option>
+                        <optgroup label=" Surat Keterangan & Administratif">
+                            <option value="keterangan_aktif"> Surat Keterangan Aktif/Kader</option>
+                            <option value="spd"> Surat Perjalanan Dinas (SPD)</option>
+                            <option value="balasan"> Surat Balasan/Jawaban</option>
                         </optgroup>
                     </select>
                 </div>
