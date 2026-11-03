@@ -287,7 +287,7 @@
                                     </button>
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-medium text-slate-700 mb-1"><i class="fa-solid fa-image mr-1" aria-hidden="true"></i> Logo IPPNU Custom</label>
+                                    <label class="block text-[11px] font-medium text-slate-700 mb-1"><i class="fa-solid fa-image mr-1" aria-hidden="true"></i> Logo IPPNU Custom (latar terang otomatis transparan)</label>
                                     <input type="file" accept="image/*" @change="handleIppnuLogo" class="w-full text-[10px] border border-slate-300 rounded p-1 bg-slate-50 mb-1">
                                     <button v-if="customIppnuLogo" @click="customIppnuLogo = null" class="w-full text-[10px] bg-red-100 text-red-600 hover:bg-red-200 py-1.5 rounded font-semibold transition mt-1">
                                         <i class="fa-solid fa-trash-can"></i> Hapus Logo IPPNU
@@ -882,9 +882,88 @@
                     const file = e.target.files[0];
                     if (file) this.customIpnuLogo = URL.createObjectURL(file);
                 },
-                handleIppnuLogo(e) {
+                async removeLightBackground(file) {
+                    // Client-side removal for plain white/light backgrounds.
+                    // Only edge-connected near-white pixels are made transparent,
+                    // preserving white details enclosed inside the logo artwork.
+                    const sourceUrl = URL.createObjectURL(file);
+                    try {
+                        const image = new Image();
+                        await new Promise((resolve, reject) => {
+                            image.onload = resolve;
+                            image.onerror = reject;
+                            image.src = sourceUrl;
+                        });
+                        const scale = Math.min(1, 1200 / Math.max(image.naturalWidth, image.naturalHeight));
+                        const width = Math.max(1, Math.round(image.naturalWidth * scale));
+                        const height = Math.max(1, Math.round(image.naturalHeight * scale));
+                        const canvas = document.createElement('canvas');
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+                        ctx.drawImage(image, 0, 0, width, height);
+                        const frame = ctx.getImageData(0, 0, width, height);
+                        const pixels = frame.data;
+                        const total = width * height;
+                        const visited = new Uint8Array(total);
+                        const queue = new Uint32Array(total);
+                        let head = 0, tail = 0;
+                        const isBackground = (index) => {
+                            const p = index * 4;
+                            const red = pixels[p], green = pixels[p + 1], blue = pixels[p + 2];
+                            const min = Math.min(red, green, blue);
+                            const max = Math.max(red, green, blue);
+                            return min >= 218 && (max - min) <= 34;
+                        };
+                        const add = (index) => {
+                            if (!visited[index] && isBackground(index)) {
+                                visited[index] = 1;
+                                queue[tail++] = index;
+                            }
+                        };
+                        for (let x = 0; x < width; x++) {
+                            add(x);
+                            add((height - 1) * width + x);
+                        }
+                        for (let y = 0; y < height; y++) {
+                            add(y * width);
+                            add(y * width + width - 1);
+                        }
+                        while (head < tail) {
+                            const index = queue[head++];
+                            const x = index % width;
+                            if (x > 0) add(index - 1);
+                            if (x < width - 1) add(index + 1);
+                            if (index >= width) add(index - width);
+                            if (index + width < total) add(index + width);
+                        }
+                        for (let i = 0; i < total; i++) {
+                            if (visited[i]) pixels[i * 4 + 3] = 0;
+                        }
+                        ctx.putImageData(frame, 0, 0);
+                        const result = await new Promise((resolve, reject) => {
+                            canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Gagal membuat PNG transparan')), 'image/png');
+                        });
+                        return URL.createObjectURL(result);
+                    } finally {
+                        URL.revokeObjectURL(sourceUrl);
+                    }
+                },
+                async handleIppnuLogo(e) {
                     const file = e.target.files[0];
-                    if (file) this.customIppnuLogo = URL.createObjectURL(file);
+                    if (!file) return;
+                    if (!file.type.startsWith('image/')) {
+                        alert('Silakan pilih file gambar untuk logo IPPNU.');
+                        e.target.value = '';
+                        return;
+                    }
+                    try {
+                        this.customIppnuLogo = await this.removeLightBackground(file);
+                    } catch (error) {
+                        console.error('Penghapusan latar logo IPPNU gagal:', error);
+                        this.customIppnuLogo = URL.createObjectURL(file);
+                        alert('Latar belakang belum dapat dihapus otomatis. Logo asli tetap digunakan.');
+                    }
                 },
                 handleTtdIpnu(e) {
                     const file = e.target.files[0];
