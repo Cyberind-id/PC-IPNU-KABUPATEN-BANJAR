@@ -766,7 +766,7 @@
                 if (editorIsi) { editorIsi.innerHTML = this.form.paragrafIsi; this.updateRichContent(); }
                 if (editorPenutup) { editorPenutup.innerHTML = this.form.paragrafPenutup; this.updatePenutup(); }
 
-                const saved = localStorage.getItem('ipnu_banjar_profile_jpg');
+                const saved = localStorage.getItem('ipnu_banjar_profile_editor');
                 if (saved) {
                     try {
                         const parsed = JSON.parse(saved);
@@ -827,7 +827,7 @@
                     }
                     
                     // Simpan profil ke Local Storage agar tersimpan permanen
-                    localStorage.setItem('ipnu_banjar_profile_jpg', JSON.stringify(this.form));
+                    localStorage.setItem('ipnu_banjar_profile_editor', JSON.stringify(this.form));
                     
                     },
                 formatText(command) {
@@ -877,13 +877,13 @@
                     if (file) this.ttdIppnuImg = URL.createObjectURL(file);
                 },
                 saveProfile() {
-                    localStorage.setItem('ipnu_banjar_profile_jpg', JSON.stringify(this.form));
+                    localStorage.setItem('ipnu_banjar_profile_editor', JSON.stringify(this.form));
                     alert('Profil organisasi berhasil disimpan di perangkat Anda!');
                 },
                 resetForm() {
                     if (confirm('Reset form ke pengaturan awal?')) {
                         this.selectedPreset = '';
-                        localStorage.removeItem('ipnu_surat_profile');
+                        localStorage.removeItem('ipnu_banjar_profile_editor');
                         location.reload();
                     }
                 },
@@ -985,4 +985,117 @@
                         this.form.paragrafIsi = 'Pimpinan Cabang IPNU IPPNU Kabupaten Banjar dengan ini mengangkat kader terpilih untuk menduduki jabatan struktural di kepengurusan.';
                         this.form.paragrafPenutup = 'Demikian surat pengangkatan ini dibuat untuk dilaksanakan dengan penuh tanggung jawab.';
                     } else if (type === 'pemberhentian') {
-                        this.form.perihal = 'SURAT PEMBERHENTIAN PENGURUS';
+                        this.form.perihal = 'SURAT PEMBERHENTIAN PENGURUS';                        this.form.penerima = 'YANG BERSANGKUTAN';
+                        this.form.paragrafIsi = 'Dengan ini memberhentikan dengan hormat pengurus yang bersangkutan dikarenakan telah purna masa khidmat atau alasan organisasi.';
+                        this.form.paragrafPenutup = 'Demikian surat pemberhentian ini dibuat, terima kasih atas pengabdiannya.';
+                    } else if (type === 'teguran') {
+                        this.form.perihal = 'SURAT TEGURAN ORGANISASI';
+                        this.form.penerima = 'PENGURUS / ANGGOTA TERKAIT';
+                        this.form.paragrafIsi = 'Berdasarkan hasil evaluasi dan pemantauan organisasi, dengan ini kami memberikan teguran kepada rekan/rekanita atas kedisiplinan organisasi.';
+                        this.form.paragrafPenutup = 'Demikian surat teguran ini disampaikan untuk segera diindahkan.';
+                    } else if (type === 'izin_tempat') {
+                        this.form.perihal = 'PERMOHONAN IZIN TEMPAT';
+                        this.form.penerima = 'TAKMIR MASJID / KEPALA DESA';
+                        this.form.paragrafIsi = 'Sehubungan dengan akan dilaksanakannya kegiatan keagamaan oleh PC IPNU IPPNU, kami mohon izin untuk menggunakan fasilitas balai desa / gedung NU setempat.';
+                        this.form.paragrafPenutup = 'Demikian permohonan izin tempat ini disampaikan, atas kerjasamanya terima kasih.';
+                    } else if (type === 'narasumber') {
+                        this.form.perihal = 'PERMOHONAN NARASUMBER / PEMATERI';
+                        this.form.penerima = 'SAHABAT / PEMATERI UNDANGAN';
+                        this.form.paragrafIsi = 'Kami mohon kesediaan rekan/rekanita untuk menjadi narasumber/pemateri dalam agenda Pelatihan Kaderisasi yang kami selenggarakan.';
+                        this.form.paragrafPenutup = 'Demikian permohonan ini kami sampaikan, atas kesediaannya kami ucapkan terima kasih.';
+                    } else if (type === 'sambutan') {
+                        this.form.perihal = 'PERMOHONAN SAMBUTAN TOKOH';
+                        this.form.penerima = 'TOKOH MASYARAKAT / PEJABAT';
+                        this.form.paragrafIsi = 'Dalam rangka pembukaan acara resmi organisasi, kami mohon kesediaan Bapak/Ibu untuk memberikan sambutan pengarahan.';
+                        this.form.paragrafPenutup = 'Demikian permohonan ini disampaikan, atas perhatiannya kami ucapkan terima kasih.';
+                    } else if (type === 'pemberitahuan') {
+                        this.form.perihal = 'SURAT PEMBERITAHUAN KEGIATAN';
+                        this.form.penerima = 'POLSEK / KORAMIL / KEPALA DESA';
+                        this.form.paragrafIsi = 'Dengan ini kami memberitahukan perihal rencana pelaksanaan kegiatan akbar yang akan melibatkan massa pelajar di wilayah Kabupaten Banjar.';
+                        this.form.paragrafPenutup = 'Demikian surat pemberitahuan ini disampaikan untuk menjadikan periksa.';
+                    } else if (type === 'bantuan_dana') {
+                        this.form.perihal = 'PERMOHONAN BANTUAN DANA / SPONSOR';
+                        this.form.penerima = 'DONATUR / DERMAWAN / INSTANSI';
+                        this.form.paragrafIsi = 'Guna mendukung kelancaran pembiayaan program kerja organisasi, bersama ini kami mengajukan permohonan bantuan dana / sponsor kegiatan.';
+                        this.form.paragrafPenutup = 'Demikian permohonan bantuan ini kami sampaikan, atas dermawan dan bantuannya kami ucapkan terima kasih.';
+                    } else if (type === 'undangan_umum') {
+                        this.form.perihal = 'UNDANGAN KEGIATAN UMUM';
+                        this.form.penerima = 'REKAN-REKANITA & PEMUDA DESA';
+                        this.form.paragrafIsi = 'Mengharap kehadiran seluruh rekan dan rekanita sekalian dalam rangka menyemarakkan acara peringatan hari besar Islam dan kebangsaan.';
+                        this.form.paragrafPenutup = 'Demikian undangan ini kami sampaikan, atas kehadirannya kami ucapkan terima kasih.';
+                    } else if (type === 'rekom_kegiatan') {
+                        this.form.perihal = 'REKOMENDASI KEGIATAN';
+                        this.form.penerima = 'PIHAK PENYELENGGARA EKSTERNAL';
+                        this.form.paragrafIsi = 'Berdasarkan pertimbangan organisasi, dengan ini kami memberikan rekomendasi resmi kepada kader terbaik kami untuk mengikuti kegiatan di tingkat kabupaten/provinsi.';
+                        this.form.paragrafPenutup = 'Demikian surat rekomendasi ini dibuat untuk dipergunakan sebagaimana mestinya.';
+                    } else if (type === 'permohonan_kta') {
+                        this.form.perihal = 'PERMOHONAN KARTU TANDA ANGGOTA (KTA)';
+                        this.form.penerima = 'PIMPINAN CABANG IPNU IPPNU';
+                        this.form.paragrafIsi = 'Untuk kelengkapan administrasi keanggotaan resmi, bersama ini kami mengajukan permohonan pembuatan Kartu Tanda Anggota (KTA) bagi kader baru.';
+                        this.form.paragrafPenutup = 'Demikian permohonan ini disampaikan, atas bantuan dan kerjasamanya terima kasih.';
+                    } else if (type === 'bantuan_pc') {
+                        this.form.perihal = 'PERMOHONAN BANTUAN DANA PC/PW';
+                        this.form.penerima = 'PIMPINAN CABANG / WILAYAH';
+                        this.form.paragrafIsi = 'Dalam rangka menyukseskan program kaderisasi tingkat ranting, kami mengajukan permohonan subsidi atau bantuan dana operasional kepada pimpinan di atasnya.';
+                        this.form.paragrafPenutup = 'Demikian permohonan bantuan ini kami ajukan, atas perhatiannya terima kasih.';
+                    } else if (type === 'undangan_konferensi') {
+                        this.form.perihal = 'UNDANGAN KONFERENSI / MUSYAWARAH';
+                        this.form.penerima = 'SELURUH PAC / PR / PK TERKAIT';
+                        this.form.paragrafIsi = 'Berdasarkan masa khidmat kepengurusan yang telah purna, dengan ini kami mengundang seluruh pengurus untuk hadir dalam forum Konferensi / Musyawarah Tahunan.';
+                        this.form.paragrafPenutup = 'Demikian undangan konferensi ini kami sampaikan, atas kehadirannya kami ucapkan terima kasih.';
+                    } else if (type === 'sk_panitia') {
+                        this.form.perihal = 'SURAT KEPUTUSAN PANITIA KEGIATAN';
+                        this.form.penerima = 'PANITIA PELAKSANA TERPILIH';
+                        this.form.paragrafIsi = 'Menetapkan susunan Panitia Pelaksana Kegiatan Resmi Pimpinan Cabang IPNU IPPNU Kabupaten Banjar untuk menjamin suksesnya acara.';
+                        this.form.paragrafPenutup = 'Surat Keputusan ini berlaku sejak tanggal ditetapkan.';
+                    } else if (type === 'custom_sendiri') {
+                        this.form.perihal = '...';
+                        this.form.penerima = 'Yth. ...';
+                        this.form.paragrafIsi = 'Tulis isi surat Anda di sini...';
+                        this.form.paragrafPenutup = 'Demikian surat ini dibuat, atas perhatiannya kami sampaikan terima kasih.';
+                        this.form.hariAcara = ''; this.form.tanggalAcara = ''; this.form.waktuAcara = ''; this.form.tempatAcara = '';
+                    } else {
+                        this.form.perihal = 'SURAT RESMI ORGANISASI';
+                        this.form.penerima = 'PENGURUS TERKAIT';
+                        this.form.paragrafIsi = 'Sehubungan dengan program kerja organisasi, bersama surat ini kami sampaikan informasi penting untuk ditindaklanjuti bersama.';
+                        this.form.paragrafPenutup = 'Demikian disampaikan, atas perhatiannya terima kasih.';
+                    }
+
+                    if (editorIsi) { editorIsi.innerHTML = this.form.paragrafIsi; this.updateRichContent(); }
+                    if (editorPembuka) { editorPembuka.innerHTML = this.form.paragrafPembuka; this.updatePembuka(); }
+                    if (editorPenutup) { editorPenutup.innerHTML = this.form.paragrafPenutup; this.updatePenutup(); }
+                },
+                async downloadImage() {
+                    const element = document.getElementById('printable-surat');
+                    if (!element) return;
+                    this.isExporting = true;
+                    try {
+                        // Menggunakan fixed parameter untuk mencegah perbedaan resolusi antar device (HP vs PC)
+                        const canvas = await html2canvas(element, { 
+                            scale: 2, 
+                            useCORS: true, 
+                            allowTaint: true,
+                            logging: false,
+                            backgroundColor: '#ffffff'
+                        });
+                        const link = document.createElement('a');
+                        const safeSubject = (this.form.perihal || 'Dokumen').replace(/[^a-zA-Z0-9]/g, '_');
+                        link.download = `Surat_IPNU BANJAR ADMIN_${safeSubject}.jpg`;
+                        link.href = canvas.toDataURL('image/jpeg', 1.0);
+                        link.click();
+                    } catch (err) {
+                        console.error(err);
+                        alert("Gagal memproses gambar. Pastikan browser mendukung fitur ini.");
+                    } finally {
+                        this.isExporting = false;
+                    }
+                },
+                printSurat() {
+                    window.print();
+                }
+            }
+        }).mount('#app');
+    </script>
+
+</body>
+</html>
