@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPNU Banjar Admin — Generator Surat PDF & Word</title>
+    <link rel="icon" type="image/png" href="https://ahmatbadali.my.id/img/LOGOIPNU.png">
+    <link rel="apple-touch-icon" href="https://ahmatbadali.my.id/img/LOGOIPNU.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -240,9 +242,15 @@
             #printable-surat { width: 210mm !important; min-height: 297mm !important; padding: 15mm !important; }
         }
         .no-print button, .no-print select { -webkit-tap-highlight-color: transparent; }
-    </style>
+            /* Liquid glass accents; layout and spacing remain Tailwind utility-driven. */
+        body::before { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; background: radial-gradient(circle at 8% 12%, rgba(16,185,129,.12), transparent 28%), radial-gradient(circle at 92% 82%, rgba(20,184,166,.10), transparent 30%); }
+        .no-print button { transition: transform .22s ease, box-shadow .22s ease, filter .22s ease; }
+        .no-print button:active { transform: scale(.97); filter: saturate(1.15); }
+        .surat-document { box-sizing: border-box; }
+</style>
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased min-h-screen flex flex-col">\n    <div class="no-print bg-emerald-950 text-white px-4 py-2 flex items-center justify-between gap-3 text-xs"><a href="/tools/" class="inline-flex items-center gap-2 font-bold"><img src="https://ahmatbadali.my.id/img/LOGOIPNU.png" class="w-6 h-6 rounded-full bg-white object-contain p-0.5" alt="Logo IPNU"> PC IPNU KABUPATEN BANJAR</a><a href="/tools/" class="text-emerald-100 hover:text-white underline">← Kembali ke Tools</a></div>
+<body class="bg-gradient-to-br from-emerald-50 via-slate-100 to-teal-50 text-slate-800 antialiased min-h-screen flex flex-col">
+    <div class="no-print bg-emerald-950/90 backdrop-blur-xl text-white px-4 py-2 flex items-center justify-between gap-3 text-xs border-b border-white/10 shadow-lg shadow-emerald-950/10"><a href="/tools/" class="inline-flex items-center gap-2 font-bold"><img src="https://ahmatbadali.my.id/img/LOGOIPNU.png" class="w-6 h-6 rounded-full bg-white object-contain p-0.5" alt="Logo IPNU"> PC IPNU KABUPATEN BANJAR</a><a href="/tools/" class="text-emerald-100 hover:text-white underline">← Kembali ke Tools</a></div>
     
     <div id="app" class="flex flex-col flex-1">
 
@@ -316,7 +324,7 @@
             <div class="lg:col-span-5 space-y-4 no-print pb-8 lg:sticky lg:top-20 pr-1">
                 
                 <!-- Quick Preset Selection - Enhanced with Categories -->
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                <div class="bg-white/75 backdrop-blur-xl p-4 rounded-2xl shadow-[8px_8px_24px_rgba(15,23,42,0.08),-6px_-6px_18px_rgba(255,255,255,0.9)] border border-white/80 transition-all duration-300 hover:-translate-y-0.5">
                     <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">
                         <i class="fa-solid fa-bolt text-amber-500 mr-1"></i> Preset Template Surat
                     </label>
@@ -356,7 +364,7 @@
                 </div>
 
                 <!-- Tab Control Form -->
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-white/80 backdrop-blur-xl rounded-2xl shadow-[8px_8px_24px_rgba(15,23,42,0.08),-6px_-6px_18px_rgba(255,255,255,0.9)] border border-white/80 overflow-hidden">
                     <div class="flex border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600 overflow-x-auto">
                         <button @click="activeTab = 'org'" :class="{'bg-white text-emerald-700 border-b-2 border-emerald-600': activeTab === 'org'}" class="px-4 py-3 flex-1 text-center whitespace-nowrap transition">
                             <i class="fa-solid fa-sitemap mr-1"></i> Organisasi
@@ -633,7 +641,7 @@
             <!-- RIGHT PANEL: Live Document Paper Preview -->
             <div class="lg:col-span-7 flex flex-col w-full max-w-full overflow-x-auto pb-8 pt-2 lg:pt-0 bg-slate-200 p-2 md:p-4 rounded-xl shadow-inner">
                 
-                <div class="w-[210mm] max-w-none bg-white shadow-xl rounded-sm p-[15mm] surat-document border border-slate-300 min-h-[297mm] flex flex-col origin-top-left" id="printable-surat">
+                <div class="w-[210mm] max-w-none bg-white shadow-[0_24px_70px_rgba(15,23,42,0.22)] rounded-sm p-[15mm] surat-document border border-white/80 min-h-[297mm] flex flex-col origin-top-left" id="printable-surat">
                     
                     <div class="surat-container">
                         <!-- Kop Surat -->
