@@ -608,6 +608,35 @@
  .activity-gallery #activityControls>button{flex-basis:40px!important;width:40px!important;height:40px!important;min-width:40px!important}
  .activity-gallery #activityDots{column-gap:6px!important;row-gap:8px!important;padding-top:8px!important}
 }
+
+/* Stable activity slider layout: controls stay below the image and never overflow. */
+#activityControls{
+  position:static!important;inset:auto!important;transform:none!important;
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:center!important;
+  gap:10px 12px!important;width:100%;max-width:100%;box-sizing:border-box;
+  margin:14px auto 0!important;padding:0 8px!important;overflow:visible!important;
+}
+#activityControls[hidden]{display:none!important}
+#activityControls>button{
+  position:static!important;inset:auto!important;transform:none!important;
+  order:1;flex:0 0 40px;width:40px;height:40px;display:grid;place-items:center;
+}
+#activityDots{
+  order:2;flex:0 1 100%;width:100%;max-width:100%;min-width:0;
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;
+  gap:7px;padding:5px 4px 0;box-sizing:border-box;overflow:visible;
+}
+#activityDots .activity-dot{flex:0 0 7px;width:7px;min-width:7px;height:7px}
+#activityDots .activity-dot.active{flex-basis:20px;width:20px;min-width:20px}
+#activityCounter{position:static!important;display:block;width:100%;margin:8px auto 0;text-align:center}
+#activityCarousel{width:100%;min-width:0;overflow:hidden}
+#activityCarousel .activity-track{width:100%;display:flex;align-items:stretch;will-change:transform}
+#activityCarousel .activity-slide{flex:0 0 100%;min-width:100%;box-sizing:border-box}
+@media(max-width:600px){
+ #activityControls{gap:9px 10px!important}
+ #activityControls>button{flex-basis:38px;width:38px;height:38px}
+ #activityDots{gap:6px}
+}
 </style>
 <script id="liquid-interaction-controller">
 (()=>{
