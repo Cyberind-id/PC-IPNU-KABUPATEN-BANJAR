@@ -589,6 +589,25 @@
 .activity-photo-viewer-nav.prev{left:14px;top:50%;transform:translateY(-50%)}
 .activity-photo-viewer-nav.next{right:14px;top:50%;transform:translateY(-50%)}
 @media(max-width:600px){.activity-photo-viewer{padding:64px 12px 28px}.activity-photo-viewer-nav{width:38px;height:38px;background:#ffffff25}.activity-photo-viewer-nav.prev{left:8px}.activity-photo-viewer-nav.next{right:8px}.activity-photo-viewer-figure img{max-width:100%;max-height:calc(100% - 48px)}}
+
+/* Stable activity slideshow layout: arrows centered below the photo, dots on their own row. */
+.activity-gallery .activity-carousel{position:relative!important;width:100%!important;min-width:0!important;overflow:hidden!important}
+.activity-gallery #activityTrack{display:flex!important;width:100%!important;min-width:100%!important;transform:translate3d(0,0,0);transition:transform .55s ease}
+.activity-gallery #activityTrack .activity-slide{display:block!important;position:relative!important;flex:0 0 100%!important;width:100%!important;min-width:100%!important;max-width:100%!important;box-sizing:border-box!important}
+.activity-gallery #activityTrack .activity-slide img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important}
+.activity-gallery #activityControls{position:static!important;width:100%!important;max-width:100%!important;min-width:0!important;display:flex;flex-flow:row wrap!important;justify-content:center!important;align-items:center!important;gap:10px 12px!important;margin:14px auto 0!important;padding:0!important;box-sizing:border-box!important;overflow:visible!important}
+.activity-gallery #activityControls[hidden]{display:none!important}
+.activity-gallery #activityControls>button{position:static!important;inset:auto!important;transform:none!important;float:none!important;flex:0 0 42px!important;width:42px!important;height:42px!important;min-width:42px!important;margin:0!important;display:grid!important;place-items:center!important;box-sizing:border-box!important}
+.activity-gallery #activityDots{order:5!important;flex:0 0 100%!important;width:100%!important;max-width:100%!important;min-width:0!important;display:flex!important;flex-flow:row wrap!important;justify-content:center!important;align-items:center!important;gap:7px!important;margin:0 auto!important;padding:7px 4px 0!important;box-sizing:border-box!important;overflow:visible!important}
+.activity-gallery #activityDots .activity-dot{position:static!important;flex:0 0 7px!important;width:7px!important;height:7px!important;min-width:7px!important;margin:0!important}
+.activity-gallery #activityDots .activity-dot.active{flex-basis:20px!important;width:20px!important;min-width:20px!important}
+.activity-gallery #activityCounter{position:static!important;display:block!important;width:100%!important;margin:8px auto 0!important;text-align:center!important}
+@media(max-width:600px){
+ .activity-gallery{padding:18px!important}
+ .activity-gallery #activityControls{gap:9px 10px!important}
+ .activity-gallery #activityControls>button{flex-basis:40px!important;width:40px!important;height:40px!important;min-width:40px!important}
+ .activity-gallery #activityDots{column-gap:6px!important;row-gap:8px!important;padding-top:8px!important}
+}
 </style>
 <script id="liquid-interaction-controller">
 (()=>{
