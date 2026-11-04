@@ -364,7 +364,7 @@
       if(!response.ok)throw new Error('GitHub album request failed: '+response.status);
       const files=await response.json();
       activityItems=files
-        .filter(file=>file.type==='file'&&/\\.(avif|gif|jpe?g|png|webp)$/i.test(file.name))
+        .filter(file=>file.type==='file'&&/\.(avif|gif|jpe?g|png|webp)$/i.test(file.name))
         .sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}))
         .map(file=>({
           title:'Dokumentasi Kegiatan PC IPNU Kabupaten Banjar',
