@@ -363,7 +363,7 @@
   const activityCounter=document.getElementById('activityCounter'),activityPlayPause=document.getElementById('activityPlayPause');
   const activityModal=document.getElementById('activityModal'),activityAlbumGrid=document.getElementById('activityAlbumGrid'),activityAlbumCount=document.getElementById('activityAlbumCount');
   const ACTIVITY_ALBUM_API='https://api.github.com/repos/Cyberind-id/PC-IPNU-KABUPATEN-BANJAR/contents/images/album?ref=main';
-  const ACTIVITY_ALBUM_RAW='https://raw.githubusercontent.com/Cyberind-id/PC-IPNU-KABUPATAN-BANJAR/main/images/album/';
+  const ACTIVITY_ALBUM_RAW='https://raw.githubusercontent.com/Cyberind-id/PC-IPNU-KABUPATEN-BANJAR/main/images/album/';
   async function loadActivityAlbum(){
     if(!activityCarousel)return;
     activityCarousel.innerHTML='<div class="activity-loading">Memuat dokumentasi foto dari album GitHub…</div>';
@@ -375,7 +375,7 @@
       activityItems=files
         .filter(file=>file.type==='file'&&/\.(avif|gif|jpe?g|png|webp)$/i.test(file.name))
         .sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}))
-        .map(file=>({title:'Dokumentasi Kegiatan PC IPNU Kabupaten Banjar',image:ACTIVITY_ALBUM_RAW+encodeURIComponent(file.name),link:file.html_url,filename:file.name}));
+        .map(file=>({title:'Dokumentasi Kegiatan PC IPNU Kabupaten Banjar',image:file.download_url||ACTIVITY_ALBUM_RAW+encodeURIComponent(file.name),link:file.html_url,filename:file.name}));
       currentActivityIndex=0;
       renderActivityGallery();
       renderFullActivityAlbum();
