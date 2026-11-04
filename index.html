@@ -420,6 +420,12 @@
   .activity-photo-viewer-nav.next{right:14px;top:50%;transform:translateY(-50%)}
   @media(max-width:600px){.activity-photo-viewer{padding:64px 12px 28px}.activity-photo-viewer-nav{width:38px;height:38px;background:#ffffff25}.activity-photo-viewer-nav.prev{left:8px}.activity-photo-viewer-nav.next{right:8px}.activity-photo-viewer-figure img{max-width:100%;max-height:calc(100% - 48px)}}
 </style>
+<div class="activity-photo-viewer" id="activityPhotoViewer" aria-hidden="true">
+  <button type="button" class="activity-photo-viewer-close" id="activityPhotoViewerClose" aria-label="Tutup foto"><i class="fa-solid fa-xmark"></i></button>
+  <button type="button" class="activity-photo-viewer-nav prev" id="activityPhotoViewerPrev" aria-label="Foto sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
+  <figure class="activity-photo-viewer-figure"><img id="activityPhotoViewerImage" src="" alt=""><figcaption><span id="activityPhotoViewerName"></span><strong id="activityPhotoViewerCount"></strong></figcaption></figure>
+  <button type="button" class="activity-photo-viewer-nav next" id="activityPhotoViewerNext" aria-label="Foto berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
 <script id="liquid-interaction-controller">
 (()=>{
   const targets='button, .btn, [role="button"], nav a, .nav-link, .card, article, .stat-card, .news-slide, .agenda-card, .team-card, .glass-card, .faq-item, .tool-card, .feature-card';
@@ -462,12 +468,6 @@
   (function(){const viewer=document.getElementById('activityPhotoViewer');let startX=0;viewer.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;},{passive:true});viewer.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-startX;if(Math.abs(dx)>55)moveAlbumPhoto(dx<0?1:-1);},{passive:true});})();
 </script>
 
-<div class="activity-photo-viewer" id="activityPhotoViewer" aria-hidden="true">
-  <button type="button" class="activity-photo-viewer-close" id="activityPhotoViewerClose" aria-label="Tutup foto"><i class="fa-solid fa-xmark"></i></button>
-  <button type="button" class="activity-photo-viewer-nav prev" id="activityPhotoViewerPrev" aria-label="Foto sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
-  <figure class="activity-photo-viewer-figure"><img id="activityPhotoViewerImage" src="" alt=""><figcaption><span id="activityPhotoViewerName"></span><strong id="activityPhotoViewerCount"></strong></figcaption></figure>
-  <button type="button" class="activity-photo-viewer-nav next" id="activityPhotoViewerNext" aria-label="Foto berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
-</div>
 </body>
 </html>
 
