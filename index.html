@@ -353,17 +353,52 @@
   }
   let activityItems=[],currentActivityIndex=0,activityTimer=null;
   const activityCarousel=document.getElementById('activityCarousel'),activityControls=document.getElementById('activityControls'),activityDots=document.getElementById('activityDots');
+  const ACTIVITY_ALBUM_API='https://api.github.com/repos/Cyberind-id/PC-IPNU-KABUPATEN-BANJAR/contents/images/album?ref=main';
+  const ACTIVITY_ALBUM_RAW='https://raw.githubusercontent.com/Cyberind-id/PC-IPNU-KABUPATEN-BANJAR/main/images/album/';
+  async function loadActivityAlbum(){
+    if(!activityCarousel)return;
+    activityCarousel.innerHTML='<div class="activity-loading">Memuat dokumentasi foto dari album GitHub…</div>';
+    activityControls.hidden=true;
+    try{
+      const response=await fetch(ACTIVITY_ALBUM_API,{headers:{Accept:'application/vnd.github+json'}});
+      if(!response.ok)throw new Error('GitHub album request failed: '+response.status);
+      const files=await response.json();
+      activityItems=files
+        .filter(file=>file.type==='file'&&/\\.(avif|gif|jpe?g|png|webp)$/i.test(file.name))
+        .sort((a,b)=>a.name.localeCompare(b.name,undefined,{numeric:true,sensitivity:'base'}))
+        .map(file=>({
+          title:'Dokumentasi Kegiatan PC IPNU Kabupaten Banjar',
+          image:ACTIVITY_ALBUM_RAW+encodeURIComponent(file.name),
+          link:file.html_url,
+          filename:file.name
+        }));
+      currentActivityIndex=0;
+      renderActivityGallery();
+    }catch(error){
+      console.error('Gagal memuat images/album:',error);
+      activityCarousel.innerHTML='<div class="activity-loading">Album foto belum dapat dimuat. Silakan coba beberapa saat lagi.</div>';
+      activityControls.hidden=true;
+      activityDots.innerHTML='';
+    }
+  }
   function renderActivityGallery(){
     if(!activityCarousel)return;
-    const terms=/kegiatan|pelantikan|konferensi|konfercab|rapat|makesta|lakmud|diklat|pelatihan|seminar|sosialisasi|aksi sosial|ziarah|lomba|safari|kaderisasi|kunjungan|workshop|silaturahmi|pengabdian|pembukaan|penutupan|peringatan|haul|festival|kemah/i;
-    activityItems=newsItems.filter(item=>item.image&&terms.test((item.title||'')+' '+(item.category||'')+' '+(item.summary||'')));
-    if(!activityItems.length){activityCarousel.innerHTML='<div class="activity-loading">Belum ada artikel kegiatan bergambar yang dapat ditampilkan. Foto akan muncul otomatis setelah artikel kegiatan dipublikasikan di Blogspot.</div>';activityControls.hidden=true;return;}
+    if(!activityItems.length){
+      activityCarousel.innerHTML='<div class="activity-loading">Belum ada foto di folder images/album/ pada repository GitHub.</div>';
+      activityControls.hidden=true;
+      activityDots.innerHTML='';
+      clearInterval(activityTimer);
+      return;
+    }
     currentActivityIndex=(currentActivityIndex+activityItems.length)%activityItems.length;
-    activityCarousel.innerHTML='<div class="activity-track" id="activityTrack">'+activityItems.map(item=>'<article class="activity-slide"><img src="'+escapeNewsText(item.image)+'" alt="'+escapeNewsText(item.title)+'" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display=\'none\'"><div class="activity-caption"><span>'+escapeNewsText(item.category)+' · '+escapeNewsText(item.date)+'</span><h4>'+escapeNewsText(item.title)+'</h4><a href="'+escapeNewsText(item.link)+'" target="_blank" rel="noopener noreferrer">Lihat dokumentasi kegiatan ↗</a></div></article>').join('')+'</div>';
+    activityCarousel.innerHTML='<div class="activity-track" id="activityTrack">'+activityItems.map(item=>'<article class="activity-slide"><img src="'+escapeNewsText(item.image)+'" alt="'+escapeNewsText(item.title)+' — '+escapeNewsText(item.filename)+'" loading="lazy" onerror="this.style.display=\'none\'"><div class="activity-caption"><span>Album Kegiatan · PC IPNU Kabupaten Banjar</span><h4>'+escapeNewsText(item.title)+'</h4><a href="'+escapeNewsText(item.link)+'" target="_blank" rel="noopener noreferrer">Lihat foto ↗</a></div></article>').join('')+'</div>';
     activityDots.innerHTML=activityItems.map((_,i)=>'<button class="activity-dot '+(i===currentActivityIndex?'active':'')+'" type="button" aria-label="Foto kegiatan '+(i+1)+'" data-activity-index="'+i+'"></button>').join('');
     activityDots.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{currentActivityIndex=Number(b.dataset.activityIndex);renderActivityGallery();}));
-    const track=document.getElementById('activityTrack');track.style.transform='translate3d(-'+(currentActivityIndex*100)+'%,0,0)';
-    activityControls.hidden=activityItems.length<2;clearInterval(activityTimer);if(activityItems.length>1)activityTimer=setInterval(()=>{currentActivityIndex=(currentActivityIndex+1)%activityItems.length;renderActivityGallery();},5000);
+    const track=document.getElementById('activityTrack');
+    track.style.transform='translate3d(-'+(currentActivityIndex*100)+'%,0,0)';
+    activityControls.hidden=activityItems.length<2;
+    clearInterval(activityTimer);
+    if(activityItems.length>1)activityTimer=setInterval(()=>{currentActivityIndex=(currentActivityIndex+1)%activityItems.length;renderActivityGallery();},5000);
   }
   document.getElementById('activityPrev').addEventListener('click',()=>{if(activityItems.length>1){currentActivityIndex=(currentActivityIndex-1+activityItems.length)%activityItems.length;renderActivityGallery();}});
   document.getElementById('activityNext').addEventListener('click',()=>{if(activityItems.length>1){currentActivityIndex=(currentActivityIndex+1)%activityItems.length;renderActivityGallery();}});
@@ -429,6 +464,7 @@
     newsControls.hidden=true;
   }
   renderNews();
+  loadActivityAlbum();
   loadBloggerNews();
   newsCarousel.addEventListener('mouseenter',()=>{clearInterval(newsAutoplayTimer);newsAutoplayTimer=null;});
   newsCarousel.addEventListener('mouseleave',startNewsAutoplay);
