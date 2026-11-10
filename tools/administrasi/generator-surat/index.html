@@ -751,7 +751,7 @@
 
                             <!-- Address & Contact info -->
                             <div class="text-right detail-font text-[9px] text-black leading-snug mt-1 space-y-0.5">
-                                <div>{{ form.alamat }}</div>
+                                <div>{{ ipnuOnlyMode ? 'Sekretariat PC IPNU Kabupaten Banjar' : form.alamat }}</div>
                                 <div v-if="form.telepon" class="flex items-center justify-end gap-1">
                                     <span>{{ form.telepon }}</span>
                                     <i class="fa-brands fa-whatsapp text-emerald-600 text-[10px]"></i>
