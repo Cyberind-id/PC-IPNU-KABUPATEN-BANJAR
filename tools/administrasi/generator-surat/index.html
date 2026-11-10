@@ -1083,14 +1083,31 @@
                         year: 'numeric',
                         timeZone
                     }).format(now);
-                    const hijriah = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura-nu-latn', {
+                    // Paksa kalender Hijriah melalui opsi calendar agar tidak jatuh
+                    // kembali ke kalender Gregorian pada browser/WebView tertentu.
+                    const hijriFormatter = new Intl.DateTimeFormat('en-US', {
+                        calendar: 'islamic-umalqura',
+                        numberingSystem: 'latn',
                         day: 'numeric',
-                        month: 'long',
+                        month: 'numeric',
                         year: 'numeric',
                         timeZone
-                    }).format(now);
+                    });
+                    const hijriParts = Object.fromEntries(
+                        hijriFormatter.formatToParts(now)
+                            .filter(part => part.type !== 'literal')
+                            .map(part => [part.type, part.value])
+                    );
+                    const hijriMonths = [
+                        'Muharam', 'Safar', 'Rabiul Awal', 'Rabiul Akhir',
+                        'Jumadil Awal', 'Jumadil Akhir', 'Rajab', 'Syaban',
+                        'Ramadan', 'Syawal', 'Zulkaidah', 'Zulhijah'
+                    ];
+                    const hijriMonth = hijriMonths[Number(hijriParts.month) - 1];
                     this.form.tglMasehi = masehi + ' M';
-                    this.form.tglHijriah = hijriah.replace(/\s*(?:AH|H)$/i, '') + ' H';
+                    this.form.tglHijriah = hijriMonth
+                        ? `${hijriParts.day} ${hijriMonth} ${hijriParts.year} H`
+                        : hijriFormatter.format(now) + ' H';
                 },
                 documentText(value) {
                     if (!this.ipnuOnlyMode || value == null) return value;
