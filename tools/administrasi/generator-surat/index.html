@@ -665,14 +665,17 @@
 
                             <!-- Upload TTD & Stempel Digital -->
                             <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-700">Digital TTD & Stempel Overlay</span>
-                                    <label class="inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" v-model="form.useDigitalSign" class="sr-only peer">
-                                        <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <span class="text-xs font-bold text-slate-700 block">Digital TTD & Stempel Overlay</span>
+                                        <span class="text-[10px]" :class="form.useDigitalSign ? 'text-emerald-700 font-semibold' : 'text-slate-500'">{{ form.useDigitalSign ? 'Aktif' : 'Nonaktif' }}</span>
+                                    </div>
+                                    <label class="relative inline-flex items-center shrink-0 cursor-pointer" title="Aktifkan atau nonaktifkan tanda tangan digital">
+                                        <input type="checkbox" v-model="form.useDigitalSign" class="sr-only peer" aria-label="Aktifkan Digital TTD dan Stempel Overlay">
+                                        <span class="relative block h-6 w-11 rounded-full bg-slate-300 transition-colors duration-200 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-emerald-600 peer-checked:bg-emerald-600 after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:border after:border-slate-300 after:bg-white after:shadow-sm after:transition-transform after:duration-200 peer-checked:after:translate-x-5 peer-checked:after:border-white"></span>
                                     </label>
                                 </div>
-                                <p class="text-[11px] text-slate-500">Aktifkan untuk menyertakan gambar tanda tangan / stempel langsung pada pratinjau.</p>
+                                <p class="text-[11px] text-slate-500">Aktifkan untuk mengunggah dan menampilkan gambar tanda tangan atau stempel pada pratinjau serta hasil surat.</p>
                                 
                                 <div v-if="form.useDigitalSign" class="grid grid-cols-2 gap-2 pt-2">
                                     <div>
