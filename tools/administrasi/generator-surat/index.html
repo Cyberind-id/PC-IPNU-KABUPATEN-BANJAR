@@ -750,7 +750,7 @@
                             </div>
 
                             <!-- Address & Contact info -->
-                            <div class="text-right detail-font text-[9px] text-black leading-snug mt-1 space-y-0.5">
+                            <div class="text-right detail-font text-[9px] text-black leading-snug space-y-0.5" :class="ipnuOnlyMode ? 'mt-0' : 'mt-1'">
                                 <div>{{ ipnuOnlyMode ? 'Sekretariat PC IPNU Kabupaten Banjar' : form.alamat }}</div>
                                 <div v-if="form.telepon" class="flex items-center justify-end gap-1">
                                     <span>{{ form.telepon }}</span>
