@@ -546,7 +546,7 @@
                         <div v-show="activeTab === 'body'" class="space-y-3">
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Paragraf Pembuka / Jenis Kegiatan</label>
-                                <textarea v-model="form.paragrafPembuka" rows="3" class="w-full text-xs border border-slate-300 rounded p-2 focus:ring-1 focus:ring-emerald-500"></textarea>
+                                <textarea v-model="form.paragrafPembuka" rows="6" class="w-full min-h-[150px] text-sm leading-relaxed border border-slate-300 rounded-lg p-3 focus:ring-1 focus:ring-emerald-500 resize-y"></textarea>
                             </div>
 
                             <div class="grid grid-cols-2 gap-3">
@@ -573,12 +573,12 @@
 
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Paragraf Isi (Tambahan)</label>
-                                <textarea v-model="form.paragrafIsi" rows="2" placeholder="Isi tambahan untuk surat..." class="w-full text-xs border border-slate-300 rounded p-2 focus:ring-1 focus:ring-emerald-500"></textarea>
+                                <textarea v-model="form.paragrafIsi" rows="8" placeholder="Isi tambahan untuk surat..." class="w-full min-h-[200px] text-sm leading-relaxed border border-slate-300 rounded-lg p-3 focus:ring-1 focus:ring-emerald-500 resize-y"></textarea>
                             </div>
 
                             <div>
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Paragraf Penutup</label>
-                                <textarea v-model="form.paragrafPenutup" rows="2" class="w-full text-xs border border-slate-300 rounded p-2 focus:ring-1 focus:ring-emerald-500"></textarea>
+                                <textarea v-model="form.paragrafPenutup" rows="5" class="w-full min-h-[125px] text-sm leading-relaxed border border-slate-300 rounded-lg p-3 focus:ring-1 focus:ring-emerald-500 resize-y"></textarea>
                             </div>
                             
                             <!-- Additional fields for specific surat types -->
