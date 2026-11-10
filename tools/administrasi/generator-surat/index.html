@@ -36,6 +36,58 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
+        /* Form controls: clean outline, soft corners, and consistent focus state */
+        #app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+        #app select,
+        #app textarea {
+            border: 1px solid #dbe4e0 !important;
+            border-radius: 10px !important;
+            background-color: #ffffff !important;
+            color: #1f2937;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.035);
+            outline: none;
+            transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+        }
+
+        #app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):hover,
+        #app select:hover,
+        #app textarea:hover {
+            border-color: #a7cfc0 !important;
+        }
+
+        #app input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+        #app select:focus,
+        #app textarea:focus {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12), 0 1px 2px rgba(15, 23, 42, 0.035) !important;
+            background-color: #ffffff !important;
+        }
+
+        #app input::placeholder,
+        #app textarea::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+
+        #app input[type="file"] {
+            max-width: 100%;
+            border: 1px dashed #cbd5e1;
+            border-radius: 9px;
+            padding: 8px;
+            background: #ffffff;
+        }
+
+        #app input[type="file"]::file-selector-button {
+            border: 0;
+            border-radius: 7px;
+            padding: 6px 10px;
+            margin-right: 9px;
+            background: #ecfdf5;
+            color: #047857;
+            font-weight: 600;
+            cursor: pointer;
+        }
         
         /* Kop Surat Custom Font */
         .kop-font {
