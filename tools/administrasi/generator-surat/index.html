@@ -1090,7 +1090,7 @@
                         timeZone
                     }).format(now);
                     this.form.tglMasehi = masehi + ' M';
-                    this.form.tglHijriah = hijriah.replace(/\\s*AH$/i, '').replace(/\\s*H$/i, '') + ' H';
+                    this.form.tglHijriah = hijriah.replace(/\s*(?:AH|H)$/i, '') + ' H';
                 },
                 documentText(value) {
                     if (!this.ipnuOnlyMode || value == null) return value;
