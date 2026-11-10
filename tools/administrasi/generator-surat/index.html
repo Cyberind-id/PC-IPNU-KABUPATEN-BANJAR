@@ -1076,14 +1076,14 @@
                 documentText(value) {
                     if (!this.ipnuOnlyMode || value == null) return value;
                     return String(value)
-                        .replace(/Rekan\\s+dan\\s+Rekanita/gi, 'Rekan')
-                        .replace(/Rekan\\s*\\/\\s*Rekanita/gi, 'Rekan')
+                        .replace(/Rekan\s+dan\s+Rekanita/gi, 'Rekan')
+                        .replace(/Rekan\s*\/\s*Rekanita/gi, 'Rekan')
                         .replace(/Rekanita/gi, 'Rekan')
-                        .replace(/IPNU\\s+dan\\s+IPPNU/gi, 'IPNU')
-                        .replace(/IPNU\\s*\\/\\s*IPPNU/gi, 'IPNU')
-                        .replace(/IPNU\\s+IPPNU/gi, 'IPNU')
+                        .replace(/IPNU\s+dan\s+IPPNU/gi, 'IPNU')
+                        .replace(/IPNU\s*\/\s*IPPNU/gi, 'IPNU')
+                        .replace(/IPNU\s+IPPNU/gi, 'IPNU')
                         .replace(/IPPNU/gi, '')
-                        .replace(/[ \\t]{2,}/g, ' ')
+                        .replace(/[ \t]{2,}/g, ' ')
                         .replace(/ +([,.;:])/g, '$1');
                 },
                 // -- BAGIAN METODE MODAL BARU --
