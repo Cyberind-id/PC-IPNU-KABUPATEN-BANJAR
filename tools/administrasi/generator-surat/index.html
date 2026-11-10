@@ -1025,8 +1025,8 @@
                         paragrafPenutup: 'Demikian undangan ini kami sampaikan, atas kehadiran dan partisipasinya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.',
                         
                         kotaSurat: 'Kabupaten Banjar',
-                        tglHijriah: '26 Muharam 1448 H',
-                        tglMasehi: '08 Agustus 2026 M',
+                        tglHijriah: '',
+                        tglMasehi: '',
                         
                         ketuaIpnu: '[NAMA KETUA PC IPNU]',
                         niaIpnu: 'NIA. [NOMOR NIA]',
@@ -1046,6 +1046,7 @@
                 }
             },
             mounted() {
+                this.syncDocumentDate();
                 this.randomQuote = this.getRandomQuote();
                 // Use one background-removed IPPNU asset for header/logo preview and PDF export.
                 this.loadDefaultIppnuLogo();
@@ -1073,6 +1074,24 @@
                 this.loadPreset(this.form.suratType);
             },
             methods: {
+                syncDocumentDate() {
+                    const now = new Date();
+                    const timeZone = 'Asia/Makassar';
+                    const masehi = new Intl.DateTimeFormat('id-ID', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                        timeZone
+                    }).format(now);
+                    const hijriah = new Intl.DateTimeFormat('id-ID-u-ca-islamic-umalqura-nu-latn', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric',
+                        timeZone
+                    }).format(now);
+                    this.form.tglMasehi = masehi + ' M';
+                    this.form.tglHijriah = hijriah.replace(/\\s*AH$/i, '').replace(/\\s*H$/i, '') + ' H';
+                },
                 documentText(value) {
                     if (!this.ipnuOnlyMode || value == null) return value;
                     return String(value)
@@ -1370,6 +1389,7 @@
                     }
                 },
                 async downloadPdf() {
+                    this.syncDocumentDate();
                     await this.loadDefaultIppnuLogo();
                     const element = document.getElementById('printable-surat');
                     if (!element) return;
@@ -1395,10 +1415,12 @@
                     });
                 },
                 async printSurat() {
+                    this.syncDocumentDate();
                     await this.loadDefaultIppnuLogo();
                     window.print();
                 },
                 downloadDocx() {
+                    this.syncDocumentDate();
                     const content = document.getElementById('printable-surat').innerHTML;
                     const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
                         "xmlns:w='urn:schemas-microsoft-com:office:word' "+
