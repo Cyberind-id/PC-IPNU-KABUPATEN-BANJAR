@@ -360,10 +360,6 @@
 
                 <!-- Header Actions -->
                 <div class="flex items-center space-x-2">
-                    <label class="mode-switch no-print" title="Sembunyikan seluruh elemen IPPNU pada dokumen">
-                        <input type="checkbox" v-model="ipnuOnlyMode">
-                        <span class="font-semibold text-white">Mode IPNU saja</span>
-                    </label>
                     <button @click="resetForm" class="text-xs bg-emerald-700 hover:bg-emerald-600 text-emerald-100 px-3 py-1.5 rounded flex items-center transition">
                         <i class="fa-solid fa-rotate-left mr-1.5"></i> Reset
                     </button>
@@ -441,6 +437,21 @@
                         
                         <!-- TAB 1: Organisasi & Kop -->
                         <div v-show="activeTab === 'org'" class="space-y-3">
+                            <div class="rounded-2xl border border-emerald-200/80 bg-gradient-to-r from-emerald-50/90 to-white/70 p-3 shadow-sm">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <div class="text-xs font-bold text-emerald-900"><i class="fa-solid fa-toggle-on mr-1.5"></i>Mode Organisasi</div>
+                                        <p class="mt-1 text-[10px] leading-relaxed text-slate-600">Aktifkan untuk membuat surat khusus IPNU tanpa logo, nama, dan tanda tangan IPPNU.</p>
+                                    </div>
+                                    <label class="mode-switch shrink-0 cursor-pointer" title="Aktifkan dokumen khusus IPNU">
+                                        <input type="checkbox" v-model="ipnuOnlyMode">
+                                        <span class="font-bold text-emerald-900">IPNU saja</span>
+                                    </label>
+                                </div>
+                                <div v-if="ipnuOnlyMode" class="mt-2 rounded-lg bg-emerald-100/80 px-3 py-2 text-[10px] font-semibold text-emerald-800">
+                                    <i class="fa-solid fa-check-circle mr-1"></i> Mode IPNU aktif — susunan kop dan penandatangan PDF disesuaikan.
+                                </div>
+                            </div>
                             <div class="bg-emerald-50/60 p-3 rounded-lg border border-emerald-200">
                                 <label class="block text-xs font-bold text-emerald-800 mb-2">
                                     <i class="fa-solid fa-image mr-1"></i> Upload Logo Custom (Opsional)
@@ -784,14 +795,14 @@
                                 <!-- Posisi Kepada Yth -->
                                 <div>
                                     <div>Kepada Yth.</div>
-                                    <div class="font-bold underline uppercase whitespace-pre-line">{{ form.penerima || '...' }}</div>
+                                    <div class="font-bold underline uppercase whitespace-pre-line">{{ documentText(form.penerima || '...') }}</div>
                                     <div>{{ form.tempatPenerima || 'di- tempat' }}</div>
                                 </div>
 
                                 <!-- Tujuan Edaran -->
                                 <div v-if="form.suratType === 'edaran' || form.suratType === 'instruksi'">
                                     <div class="font-bold underline uppercase">Kepada:</div>
-                                    <div class="whitespace-pre-line">{{ form.tujuanEdaran || '...' }}</div>
+                                    <div class="whitespace-pre-line">{{ documentText(form.tujuanEdaran || '...') }}</div>
                                 </div>
 
                                 <!-- Salam Pembuka -->
@@ -802,7 +813,7 @@
 
                                 <!-- Body Paragraphs -->
                                 <div class="space-y-3 text-justify leading-relaxed">
-                                    <p>{{ form.paragrafPembuka }}</p>
+                                    <p>{{ documentText(form.paragrafPembuka) }}</p>
 
                                     <!-- Khusus Surat Keterangan Aktif -->
                                     <div v-if="form.suratType === 'keterangan_aktif'" class="bg-slate-50 p-3 border border-slate-200 rounded my-2">
@@ -849,7 +860,7 @@
                                         </table>
                                     </div>
 
-                                    <p v-html="form.paragrafIsi"></p>
+                                    <p v-html="documentText(form.paragrafIsi)"></p>
 
                                     <!-- Agenda Details -->
                                     <div class="my-3 pl-8" v-if="form.hariAcara || form.tanggalAcara || form.waktuAcara || form.tempatAcara">
@@ -877,7 +888,7 @@
                                         </table>
                                     </div>
 
-                                    <p>{{ form.paragrafPenutup }}</p>
+                                    <p>{{ documentText(form.paragrafPenutup) }}</p>
 
                                     <!-- Salam Penutup -->
                                     <div class="mt-3 space-y-0.5">
@@ -900,7 +911,7 @@
                             </div>
 
                             <!-- Signature block title -->
-                            <div class="text-center font-bold uppercase text-[11px] leading-tight mb-4">
+                            <div class="text-center font-bold uppercase text-[11px] leading-tight mb-3">
                                 MENGETAHUI,<br>
                                 <span v-if="form.tingkat === 'PR'">PIMPINAN CABANG</span>
                                 <span v-else-if="form.tingkat === 'PK'">PIMPINAN KOMISARIAT</span>
@@ -912,7 +923,7 @@
                             </div>
 
                             <!-- Table TTD 2 Sisi -->
-                            <div class="grid gap-4 text-center mt-4" :class="ipnuOnlyMode ? 'grid-cols-1' : 'grid-cols-2'">
+                            <div class="grid gap-4 text-center mt-3" :class="ipnuOnlyMode ? 'grid-cols-1 max-w-[220px] mx-auto' : 'grid-cols-2'">
                                 
                                 <!-- Side IPNU -->
                                 <div class="flex flex-col items-center justify-between h-32">
@@ -1062,6 +1073,19 @@
                 this.loadPreset(this.form.suratType);
             },
             methods: {
+                documentText(value) {
+                    if (!this.ipnuOnlyMode || value == null) return value;
+                    return String(value)
+                        .replace(/Rekan\\s+dan\\s+Rekanita/gi, 'Rekan')
+                        .replace(/Rekan\\s*\\/\\s*Rekanita/gi, 'Rekan')
+                        .replace(/Rekanita/gi, 'Rekan')
+                        .replace(/IPNU\\s+dan\\s+IPPNU/gi, 'IPNU')
+                        .replace(/IPNU\\s*\\/\\s*IPPNU/gi, 'IPNU')
+                        .replace(/IPNU\\s+IPPNU/gi, 'IPNU')
+                        .replace(/IPPNU/gi, '')
+                        .replace(/[ \\t]{2,}/g, ' ')
+                        .replace(/ +([,.;:])/g, '$1');
+                },
                 // -- BAGIAN METODE MODAL BARU --
                 closeModal() {
                     this.showModal = false;
