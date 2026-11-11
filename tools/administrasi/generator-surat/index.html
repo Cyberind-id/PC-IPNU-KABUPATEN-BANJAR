@@ -590,7 +590,7 @@
                             <!-- Additional field for Surat Edaran / Instruksi -->
                             <div v-if="form.suratType === 'edaran' || form.suratType === 'instruksi'">
                                 <label class="block text-xs font-medium text-slate-700 mb-1">Tujuan Edaran/Instruksi (Kepada)</label>
-                                <textarea v-model="form.tujuanEdaran" rows="2" placeholder="Seluruh Pimpinan Anak Cabang IPNU IPPNU se-Kabupaten Kabupaten Banjar" class="w-full text-xs border border-slate-300 rounded p-2 focus:ring-1 focus:ring-emerald-500"></textarea>
+                                <textarea v-model="form.tujuanEdaran" rows="2" placeholder="Seluruh Pimpinan Anak Cabang IPNU IPPNU se-Kabupaten Banjar" class="w-full text-xs border border-slate-300 rounded p-2 focus:ring-1 focus:ring-emerald-500"></textarea>
                             </div>
                         </div>
 
@@ -1351,7 +1351,7 @@
                         },
                         'permohonan_rekomendasi': {
                             perihal: 'PERMOHONAN REKOMENDASI/DUKUNGAN',
-                            penerima: 'Yth. Ketua MWC NU\nKecamatan Tembarak',
+                            penerima: 'Yth. Ketua MWC NU\nsetempat',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami mengajukan permohonan rekomendasi/dukungan dari Bapak/Ibu untuk kegiatan yang akan dilaksanakan pada:',
                             paragrafIsi: 'Kami memohon dukungan dan rekomendasi dari MWC NU agar kegiatan yang kami rencanakan dapat berjalan lancar dan mendapat dukungan penuh dari semua pihak. Dukungan Bapak/Ibu sangat berarti bagi kami.',
                             paragrafPenutup: 'Demikian permohonan ini kami sampaikan, atas perhatian dan dukungannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
@@ -1365,7 +1365,7 @@
                         },
                         'rekomendasi': {
                             perihal: 'SURAT REKOMENDASI',
-                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKabupaten Banjar',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami memberikan rekomendasi kepada PAC IPNU IPPNU yang bersangkutan untuk diajukan pengesahan kepengurusannya kepada Pimpinan Cabang IPNU IPPNU Kabupaten Banjar.',
                             paragrafIsi: 'Setelah melakukan verifikasi dan evaluasi, kami merekomendasikan kepengurusan PAC IPNU IPPNU yang bersangkutan untuk mendapatkan pengesahan resmi dari Pimpinan Cabang IPNU IPPNU Kabupaten Banjar. Semoga dapat menjadi pertimbangan.',
                             paragrafPenutup: 'Demikian surat rekomendasi ini kami sampaikan, semoga menjadi pertimbangan. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
@@ -1386,28 +1386,28 @@
                         },
                         'pemberitahuan': {
                             perihal: 'PEMBERITAHUAN KEGIATAN',
-                            penerima: 'Yth. Ketua MWC NU\nKecamatan Tembarak',
+                            penerima: 'Yth. Ketua MWC NU\nsetempat',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Bersama surat ini kami beritahukan bahwa Pimpinan Cabang IPNU IPPNU Kabupaten Banjar akan menyelenggarakan agenda yang akan dilaksanakan pada:',
                             paragrafIsi: 'Kami menyampaikan pemberitahuan ini agar semua pihak dapat mengetahui dan memberikan dukungan terhadap kegiatan yang akan kami selenggarakan. Informasi lebih lanjut dapat menghubungi sekretariat kami.',
                             paragrafPenutup: 'Demikian pemberitahuan ini kami sampaikan, atas perhatiannya kami ucapkan terima kasih. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
                         },
                         'instruksi': {
                             perihal: 'INSTRUKSI PELAKSANAAN KEGIATAN',
-                            penerima: 'Seluruh Pimpinan Anak Cabang IPNU IPPNU\nse-Kabupaten Kabupaten Banjar',
+                            penerima: 'Seluruh Pimpinan Anak Cabang IPNU IPPNU\nse-Kabupaten Banjar',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami menginstruksikan kepada seluruh PAC IPNU IPPNU untuk segera melaksanakan kegiatan kaderisasi sesuai dengan pedoman yang telah ditetapkan.',
                             paragrafIsi: 'Instruksi ini wajib dilaksanakan oleh seluruh PAC dengan mengikuti prosedur dan ketentuan yang berlaku. Laporan pelaksanaan kegiatan harus disampaikan paling lambat 7 hari setelah kegiatan selesai.',
                             paragrafPenutup: 'Demikian instruksi ini kami sampaikan, agar dilaksanakan dengan sebaik-baiknya. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
                         },
                         'edaran': {
                             perihal: 'SURAT EDARAN HARLAH IPNU IPPNU',
-                            penerima: 'Seluruh Pimpinan Anak Cabang IPNU IPPNU\nse-Kabupaten Kabupaten Banjar',
+                            penerima: 'Seluruh Pimpinan Anak Cabang IPNU IPPNU\nse-Kabupaten Banjar',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dalam rangka memperingati Harlah IPNU dan IPPNU, dengan ini kami edarkan panduan pelaksanaan kegiatan yang akan dilaksanakan secara serentak pada:',
                             paragrafIsi: 'Seluruh PAC diwajibkan mengikuti panduan yang telah ditetapkan dalam pelaksanaan Harlah. Panduan teknis telah dilampirkan dan mohon untuk dipelajari serta dilaksanakan dengan sebaik-baiknya.',
                             paragrafPenutup: 'Demikian surat edaran ini kami sampaikan, mohon untuk disebarluaskan dan dilaksanakan. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
                         },
                         'keterangan_aktif': {
                             perihal: 'SURAT KETERANGAN AKTIF/KADER',
-                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKabupaten Banjar',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami menerangkan bahwa kader yang bersangkutan adalah anggota aktif IPNU IPPNU.',
                             paragrafIsi: 'Surat keterangan ini diberikan untuk keperluan administrasi yang bersangkutan. Keterangan ini berlaku selama yang bersangkutan masih terdaftar sebagai anggota aktif organisasi.',
                             paragrafPenutup: 'Demikian surat keterangan ini kami buat untuk dapat digunakan sebagaimana mestinya. Wassalamu\'alaikum warahmatullahi wabarakatuh.',
@@ -1416,7 +1416,7 @@
                         },
                         'spd': {
                             perihal: 'SURAT PERJALANAN DINAS',
-                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKabupaten Banjar',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Dengan ini kami memberikan izin perjalanan dinas kepada rekan/rekanita untuk melaksanakan tugas organisasi di luar daerah.',
                             paragrafIsi: 'Perjalanan dinas ini bertujuan untuk menjalin koordinasi dan silaturahmi dengan pengurus di daerah lain serta mengikuti kegiatan organisasi tingkat wilayah.',
                             paragrafPenutup: 'Demikian surat perjalanan dinas ini kami sampaikan, semoga perjalanan dilancarkan. Wassalamu\'alaikum warahmatullahi wabarakatuh.',
@@ -1425,7 +1425,7 @@
                         },
                         'balasan': {
                             perihal: 'SURAT BALASAN/JAWABAN',
-                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKab. Kabupaten Banjar',
+                            penerima: 'Yth. Pimpinan Cabang IPNU IPPNU\nKabupaten Banjar',
                             paragrafPembuka: 'Salam silaturahmi kami sampaikan. Menindaklanjuti surat permohonan yang telah kami terima, dengan ini kami sampaikan jawaban/konfirmasi sebagai berikut:',
                             paragrafIsi: 'Kami menerima dan menyetujui permohonan yang diajukan. Selanjutnya kami akan melakukan koordinasi lebih lanjut untuk tindak lanjut dari permohonan tersebut.',
                             paragrafPenutup: 'Demikian surat balasan ini kami sampaikan, semoga dapat dimaklumi. Wassalamu\'alaikum warahmatullahi wabarakatuh.'
